@@ -4,12 +4,13 @@ import { redirect } from "next/navigation";
 import { baseUrl, getHeaders } from "./config";
 import { deleteToken, setToken } from "@/lib/token";
 
-export async function login(username, password) {
-  const userData = Object.fromEntries(username, password);
+import { UserSchema } from "@/lib/definitions";
+
+export async function login(formData) {
   const response = await fetch(`${baseUrl}/auth/login`, {
     method: "POST",
     headers: await getHeaders(),
-    body: JSON.stringify(userData),
+    body: formData,
   });
   const { token } = await response.json();
 
@@ -119,4 +120,40 @@ export async function myTransactions() {
   });
 
   return await response.json();
+}
+
+export async function signupWithValidation(state, formData) {
+  // Validate form fields
+  const validatedFields = UserSchema.safeParse({
+    name: formData.get("username"),
+    password: formData.get("password"),
+  });
+
+  // If any form fields are invalid, return early
+  if (!validatedFields.success) {
+    return {
+      errors: validatedFields.error.flatten().fieldErrors,
+    };
+  }
+
+  // Call the provider or db to create a user...
+  register(formData);
+}
+
+export async function loginWithValidation(state, formData) {
+  // Validate form fields
+  const validatedFields = UserSchema.safeParse({
+    name: formData.get("username"),
+    password: formData.get("password"),
+  });
+
+  // If any form fields are invalid, return early
+  if (!validatedFields.success) {
+    return {
+      errors: validatedFields.error.flatten().fieldErrors,
+    };
+  }
+
+  // Call the provider or db to create a user...
+  login(formData);
 }
