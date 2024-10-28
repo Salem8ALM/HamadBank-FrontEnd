@@ -57,6 +57,7 @@ function ProfileCard({ user }) {
         className="text-red-400"
         onClick={() => {
           withdraw(10);
+          window.location.reload();
         }}
       >
         <button>withdraw</button>
