@@ -6,11 +6,12 @@ import { deleteToken, setToken } from "@/lib/token";
 
 import { UserSchema } from "@/lib/definitions";
 
-export async function login(formData) {
+export async function login(username, password) {
+  const userData = { username, password };
   const response = await fetch(`${baseUrl}/auth/login`, {
     method: "POST",
     headers: await getHeaders(),
-    body: formData,
+    body: JSON.stringify(userData),
   });
   const { token } = await response.json();
 
