@@ -4,11 +4,11 @@ import { login } from "@/api/actions/auth";
 import React, { startTransition } from "react";
 import Input from "@/components/Input";
 
-import { loginWithValidation } from "@/api/actions/auth";
+import { validateLoginForm } from "@/api/actions/auth";
 import { useState, useActionState } from "react";
 
 function LoginPage() {
-  const [state, action] = useActionState(loginWithValidation, undefined);
+  const [state, action] = useActionState(validateLoginForm, undefined);
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
 
@@ -19,13 +19,11 @@ function LoginPage() {
     formData.append("username", username);
     formData.append("password", password);
 
-    console.log(username, password);
-
     startTransition(async () => {
-      const validationResult = await action(formData);
+      await action(formData);
     });
-
-    console.log(formData);
+    // Stop the login process if there are any errors
+    if (state.errors) return;
 
     await login(username, password);
   };
@@ -33,7 +31,8 @@ function LoginPage() {
   return (
     <div className="">
       <form
-        onSubmit={handleSubmit}
+        // onSubmit={handleSubmit}
+        action={action}
         className="flex flex-col w-52 gap-4 m-auto pt-56"
       >
         <Input
@@ -41,8 +40,8 @@ function LoginPage() {
           type="text"
           placeholder="Username"
           name="username"
-          value={username}
-          onChange={(e) => setUsername(e.target.value)}
+          // value={username}
+          // onChange={(e) => setUsername(e.target.value)}
           required
         />
         {state?.errors?.name && <p>{state.errors.name}</p>}
@@ -51,8 +50,8 @@ function LoginPage() {
           type="password"
           placeholder="Password"
           name="password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
+          // value={password}
+          // onChange={(e) => setPassword(e.target.value)}
           required
         />
         {state?.errors?.password && (

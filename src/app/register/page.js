@@ -1,5 +1,5 @@
 "use client";
-import { register, signupWithValidation } from "@/api/actions/auth";
+import { register, validateRegisterForm } from "@/api/actions/auth";
 import Input from "@/components/Input";
 import React, { useState, startTransition } from "react";
 
@@ -7,31 +7,37 @@ import { useActionState, useFormStatus } from "react";
 
 // register page
 function Register() {
-  const [state, action] = useActionState(signupWithValidation, undefined);
+  const [state, action] = useActionState(validateRegisterForm, undefined);
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [image, setImage] = useState(null);
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+  // const handleSubmit = async (e) => {
+  //   e.preventDefault();
 
-    const formData = new FormData();
-    formData.append("username", username);
-    formData.append("password", password);
+  //   const formData = new FormData();
+  //   formData.append("username", username);
+  //   formData.append("password", password);
 
-    startTransition(async () => {
-      const validationResult = await action(formData);
-    });
-    if (image) {
-      formData.append("image", image);
-    }
+  //   await action(formData);
 
-    await register(formData);
-  };
+  //   if (state.errors) {
+  //     console.log(state.errors);
+  //     return;
+  //   }
+
+  //   if (image) {
+  //     formData.append("image", image);
+  //   }
+
+  //   await register(formData);
+  // };
+
   return (
     <div className="">
       <form
-        onSubmit={handleSubmit}
+        // onSubmit={handleSubmit}
+        action={action}
         className="flex flex-col w-52 gap-4 m-auto pt-56"
       >
         <Input
@@ -39,8 +45,8 @@ function Register() {
           type="text"
           placeholder="Username"
           name="username"
-          value={username}
-          onChange={(e) => setUsername(e.target.value)}
+          // value={username}
+          // onChange={(e) => setUsername(e.target.value)}
           required
         />
         {state?.errors?.name && <p>{state.errors.name}</p>}
@@ -49,8 +55,8 @@ function Register() {
           type="password"
           placeholder="Password"
           name="password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
+          // value={password}
+          // onChange={(e) => setPassword(e.target.value)}
           required
         />
         {state?.errors?.password && (
@@ -67,7 +73,7 @@ function Register() {
           className=""
           name="image"
           type="file"
-          onChange={(e) => setImage(e.target.files[0])}
+          // onChange={(e) => setImage(e.target.files[0])}
           required
         />
         <button
