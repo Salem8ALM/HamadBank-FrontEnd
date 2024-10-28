@@ -1,9 +1,13 @@
 "use client";
-import { register } from "@/api/actions/auth";
+import { register, signupWithValidation } from "@/api/actions/auth";
 import Input from "@/components/Input";
 import React, { useState } from "react";
+
+import { useFormState, useFormStatus } from "react-dom";
+
 // register page
 function Register() {
+  const [state, action] = useFormState(signupWithValidation, undefined);
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [image, setImage] = useState(null);
@@ -24,7 +28,8 @@ function Register() {
   return (
     <div className="">
       <form
-        onSubmit={handleSubmit}
+        // onSubmit={handleSubmit}
+        action={action}
         className="flex flex-col w-52 gap-4 m-auto pt-56"
       >
         <Input
@@ -36,6 +41,7 @@ function Register() {
           onChange={(e) => setUsername(e.target.value)}
           required
         />
+        {state?.errors?.name && <p>{state.errors.name}</p>}
         <Input
           className="p-2 rounded-md"
           type="password"
@@ -45,6 +51,16 @@ function Register() {
           onChange={(e) => setPassword(e.target.value)}
           required
         />
+        {state?.errors?.password && (
+          <div>
+            <p>Password must:</p>
+            <ul>
+              {state.errors.password.map((error) => (
+                <li key={error}>- {error}</li>
+              ))}
+            </ul>
+          </div>
+        )}
         <input
           className=""
           type="file"
