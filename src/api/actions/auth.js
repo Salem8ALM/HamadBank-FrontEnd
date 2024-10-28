@@ -4,6 +4,8 @@ import { redirect } from "next/navigation";
 import { baseUrl, getHeaders } from "./config";
 import { deleteToken, setToken } from "@/lib/token";
 
+import { SignupFormSchema } from "@/lib/definitions";
+
 export async function login(username, password) {
   const userData = Object.fromEntries(username, password);
   const response = await fetch(`${baseUrl}/auth/login`, {
@@ -119,4 +121,22 @@ export async function myTransactions() {
   });
 
   return await response.json();
+}
+
+export async function signupWithValidation(state, formData) {
+  // Validate form fields
+  const validatedFields = SignupFormSchema.safeParse({
+    name: formData.get("username"),
+    password: formData.get("password"),
+  });
+
+  // If any form fields are invalid, return early
+  if (!validatedFields.success) {
+    return {
+      errors: validatedFields.error.flatten().fieldErrors,
+    };
+  }
+
+  // Call the provider or db to create a user...
+  register(formData);
 }
