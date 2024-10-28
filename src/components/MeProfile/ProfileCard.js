@@ -1,7 +1,6 @@
 "use client";
-import { updateProfile } from "@/api/actions/auth";
+import { updateProfile, withdraw, addDeposit } from "@/api/actions/auth";
 import { useState } from "react";
-
 function ProfileCard({ user }) {
   const [updatedImage, setUpdatedImage] = useState(null);
 
@@ -54,6 +53,22 @@ function ProfileCard({ user }) {
           Save
         </button>
       </form>
+      <div
+        className="text-red-400"
+        onClick={() => {
+          withdraw(10);
+        }}
+      >
+        <button>withdraw</button>
+      </div>
+      <div
+        className="text-green-400"
+        onClick={() => {
+          addDeposit(999);
+        }}
+      >
+        <button>Deposit 999</button>
+      </div>
     </div>
   );
 }
