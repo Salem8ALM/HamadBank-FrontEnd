@@ -8,7 +8,11 @@ const publicRoutes = ["/login", "/register"];
 export default async function middleware(req) {
   const path = req.nextUrl.pathname;
   const isPublicRoute = publicRoutes.includes(path);
-  const isPrivateRoute = privateRoutes.includes(path);
+  // First condition is checking if the path is inside privateRoutes
+  // Second condition is checking whether the path is going to a user profile
+  const isPrivateRoute =
+    privateRoutes.includes(path) || path.includes("/profile");
+  // const isUserProfile = path.includes("/profile");
   const isHomePage = path === homePage; //Returns True if path is homepage (used to prevent continous redirecting to homepage)
   const user = await getUser();
 
