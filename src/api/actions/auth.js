@@ -43,9 +43,7 @@ export async function logout() {
   redirect(`/`);
 }
 
-{
-  /* Responsible to get all users and list them in users page */
-}
+//Responsible to get all users and list them in users page
 export async function getAllUsers() {
   const response = await fetch(`${baseUrl}/auth/users`, {
     method: "GET",
@@ -56,9 +54,7 @@ export async function getAllUsers() {
   return users;
 }
 
-{
-  /* Responsible to get userId Note=>> still working on it */
-}
+//Responsible to get userId Note=>> still working on it
 export async function getUserById(userId) {
   const response = await fetch(`${baseUrl}/auth/user/${userId}`, {
     method: "GET",
@@ -75,9 +71,7 @@ export async function getUserById(userId) {
   return data.user || data;
 }
 
-{
-  /* Responsible to get profile*/
-}
+//Responsible to get profile
 export async function getProfile() {
   const response = await fetch(`${baseUrl}/auth/me`, {
     method: "GET",
@@ -89,14 +83,13 @@ export async function getProfile() {
   return data;
 }
 
-{
-  /* Responsible to update the user profile image */
-}
+//Responsible to update the user profile image
 export async function updateProfile(image) {
   const formData = new FormData();
   formData.append("image", image);
 
   const headers = await getHeaders();
+
   // Remove Content-Type to let fetch set it for FormData
   headers.delete("Content-Type");
 
@@ -110,9 +103,7 @@ export async function updateProfile(image) {
   return updatedUser;
 }
 
-{
-  /* Responsible to get user(me) transactions */
-}
+//Responsible to get user(me) transactions
 export async function myTransactions() {
   const headers = await getHeaders();
   const response = await fetch(`${baseUrl}/transactions/my`, {

@@ -2,8 +2,10 @@ import Link from "next/link";
 
 import AuthButtons from "./AuthButtons";
 import NavLink from "./NavLink";
+import { getUser } from "@/lib/token";
 
 async function Navbar() {
+  const user = await getUser();
   return (
     <nav className="bg-gray-800">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -37,9 +39,9 @@ async function Navbar() {
           <div className="block">
             <div className="ml-10 flex items-baseline space-x-4 text-white">
               <NavLink href="/">Home</NavLink>
-              <NavLink href="/transactions">Transactions</NavLink>
-              <NavLink href="/profile">Profile</NavLink>
-              <NavLink href="/users">Users</NavLink>
+              {user && <NavLink href="/transactions">Transactions</NavLink>}
+              {user && <NavLink href="/profile">Profile</NavLink>}
+              {user && <NavLink href="/users">Users</NavLink>}
               <AuthButtons />
             </div>
           </div>
