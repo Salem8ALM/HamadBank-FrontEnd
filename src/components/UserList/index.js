@@ -27,6 +27,9 @@ function UserList({ users }) {
               <span>Balance: </span>
               {user.balance}
             </h3>
+            <button className="ml-2 px-2 py-1  text-black rounded-md hover:bg-green-600 transition-colors">
+              Transfare
+            </button>
           </div>
         </Link>
       ))}

@@ -14,7 +14,9 @@ function TransactionList({ transactions }) {
           >
             <span
               className={`${
-                transaction.amount > 0 ? "text-green-500" : "text-red-500"
+                transaction.type === "deposits"
+                  ? "text-green-500"
+                  : "text-red-500"
               } font-bold`}
             >
               {transaction.amount > 0
