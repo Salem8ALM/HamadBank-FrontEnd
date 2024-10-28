@@ -1,5 +1,4 @@
 import Link from "next/link";
-
 import AuthButtons from "./AuthButtons";
 import NavLink from "./NavLink";
 import { getUser } from "@/lib/token";
@@ -7,12 +6,12 @@ import { getUser } from "@/lib/token";
 async function Navbar() {
   const user = await getUser();
   return (
-    <nav className="bg-gray-800">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-16">
+    <nav className="bg-white shadow-2xl">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8  ">
+        <div className="flex items-center h-16   ">
+          {/* Left section: Logo */}
           <div className="flex items-center">
             <Link href="/">
-              {/* Boubyan Logo SVG */}
               <div className="absolute -translate-x-5 -translate-y-2">
                 <svg
                   width="41"
@@ -31,19 +30,26 @@ async function Navbar() {
                   />
                 </svg>
               </div>
-              <span className="font-semibold text-xl text-white">
+              <span className="font-semibold text-xl text-red-700 ml-1">
                 Boubyan Bank
               </span>
             </Link>
           </div>
-          <div className="block">
-            <div className="ml-10 flex items-baseline space-x-4 text-white">
+
+          {/* Center section: Navigation links */}
+          <div className="flex-1 flex justify-center">
+            <div className="flex items-baseline space-x-7 text-red-700">
               <NavLink href="/">Home</NavLink>
               {user && <NavLink href="/transactions">Transactions</NavLink>}
               {user && <NavLink href="/profile">Profile</NavLink>}
               {user && <NavLink href="/users">Users</NavLink>}
               <AuthButtons />
             </div>
+          </div>
+
+          {/* Right section: Authentication buttons */}
+          <div className="flex items-center">
+            <AuthButtons />
           </div>
         </div>
       </div>
