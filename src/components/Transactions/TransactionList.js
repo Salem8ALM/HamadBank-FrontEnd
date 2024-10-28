@@ -14,12 +14,14 @@ function TransactionList({ transactions }) {
           >
             <span
               className={`${
-                transaction.amount > 0 ? "text-green-500" : "text-red-500"
+                transaction.type === "deposits"
+                  ? "text-green-500"
+                  : "text-red-500"
               } font-bold`}
             >
               {transaction.amount > 0
-                ? `+${transaction.amount}`
-                : transaction.amount}
+                ? `-${transaction.amount}`
+                : `+${transaction.amount}`}
             </span>
             <span className="text-black">{dateOnly}</span>
             <span className="text-black-500 capitalize">

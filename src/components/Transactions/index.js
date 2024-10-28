@@ -32,10 +32,13 @@ function Transactions() {
 
   const handleSearch = () => {
     let filtered = transactions;
-
     if (search) {
-      filtered = filtered.filter((transaction) =>
-        transaction.type.toLowerCase().includes(search.toLowerCase())
+    }
+    if (search) {
+      filtered = filtered.filter(
+        (transaction) =>
+          transaction.type.toLowerCase().includes(search.toLowerCase()) ||
+          transaction.amount.toString().includes(search)
       );
     }
 

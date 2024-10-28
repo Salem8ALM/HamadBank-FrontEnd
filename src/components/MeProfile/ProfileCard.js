@@ -28,7 +28,7 @@ function ProfileCard({ user }) {
         src={
           user.image
             ? `https://react-bank-project.eapi.joincoded.com/${user.image}`
-            : "—Pngtree—user profile avatar_13369988.png"
+            : "/—Pngtree—user profile avatar_13369988.png"
         }
         alt={user.username || "User profile picture"}
         className="w-32 h-32 rounded-full mx-auto mb-4 border-4 border-blue-500 shadow-md"
