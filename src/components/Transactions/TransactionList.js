@@ -20,8 +20,8 @@ function TransactionList({ transactions }) {
               } font-bold`}
             >
               {transaction.amount > 0
-                ? `+${transaction.amount}`
-                : transaction.amount}
+                ? `-${transaction.amount}`
+                : `+${transaction.amount}`}
             </span>
             <span className="text-black">{dateOnly}</span>
             <span className="text-black-500 capitalize">

@@ -3,9 +3,7 @@ import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { getUserById } from "@/api/actions/auth";
 
-function UserProfile() {
-  const router = useRouter();
-  const { userId } = router.query; // Retrieve the user ID from the URL
+function UserProfile({ userId }) {
   const [user, setUser] = useState(null);
 
   useEffect(() => {
@@ -33,13 +31,18 @@ function UserProfile() {
   }
 
   return (
-    <div className="bg-gray-900 min-h-screen flex items-center justify-center">
-      <div className="bg-gray-800 p-6 rounded-lg text-center text-white">
+    <div className=" min-h-screen flex items-center justify-center">
+      <div className="bg-gray-500 p-6 text-center text-black h-96 w-96">
         <img
-          src={`https://react-bank-project.eapi.joincoded.com/${user.image}`}
+          src={
+            user.image
+              ? `https://react-bank-project.eapi.joincoded.com/${user.image}`
+              : "/—Pngtree—user profile avatar_13369988.png"
+          }
           alt={user.username}
-          className="w-32 h-32 rounded-full mx-auto mb-4"
+          className="w-32 h-32 rounded-full mx-auto mb-4 border-4 border-blue-500 shadow-md"
         />
+
         <h2 className="text-2xl font-bold mb-2">{user.username}</h2>
         <p className="text-lg">Balance: ${user.balance}</p>
       </div>
