@@ -149,3 +149,40 @@ export async function loginWithValidation(state, formData) {
   // Call the provider or db to create a user...
   login(formData);
 }
+
+// export async function withdraw(amount) {
+//   const response = await fetch(`${baseUrl}/transactions/withdraw`, {
+//     method: "PUT",
+//     body: amount,
+//   });
+// }
+
+export async function withdraw(amount) {
+  try {
+    const response = await fetch(`${baseUrl}/transactions/withdraw`, {
+      method: "PUT",
+      headers: await getHeaders(),
+      body: JSON.stringify({ amount }),
+    });
+
+    if (!response.ok) {
+      // Handle HTTP errors
+      const errorData = await response.json();
+      throw new Error(errorData.message || "Withdrawal failed");
+    }
+
+    const data = await response.json();
+    return data; // This could be success data, like new balance, etc.
+  } catch (error) {
+    console.error("Error during withdrawal:", error.message);
+    throw error; // Rethrow error if you need to handle it in the calling function
+  }
+}
+
+export async function addDeposit(amount) {
+  const response = await fetch(`${baseUrl}/transactions/deposit`, {
+    method: "POST",
+    headers: await getHeaders(),
+    body: JSON.stringify({ amount }),
+  });
+}

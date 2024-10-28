@@ -11,8 +11,8 @@ function NavLink({ children, href }) {
       href={href}
       className={`${
         isActive
-          ? "bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium underline"
-          : "hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
+          ? " px-3 py-2 rounded-md text-sm font-medium underline transition h-full"
+          : "hover:bg-gray-100 hover:text-red-950 px-3 py-2 rounded-md text-sm font-medium transition"
       } `}
     >
       {children}
