@@ -7,7 +7,7 @@ export default async function UserProfile() {
   return (
     <div>
       <div></div>
-      <h2 className="text-center text-5xl font-extrabold text-white mt-12 mb-8">
+      <h2 className="text-center text-5xl font-extrabold text-black mt-12 mb-8">
         My Profile
       </h2>
       <ProfileCard user={user} />
