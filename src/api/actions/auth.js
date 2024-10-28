@@ -191,6 +191,7 @@ export async function withdraw(amount) {
 export async function addDeposit(amount) {
   const response = await fetch(`${baseUrl}/transactions/deposit`, {
     method: "POST",
+    body: amount,
     headers: await getHeaders(),
     body: JSON.stringify({ amount }),
   });
