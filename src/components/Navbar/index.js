@@ -43,7 +43,6 @@ async function Navbar() {
               {user && <NavLink href="/transactions">Transactions</NavLink>}
               {user && <NavLink href="/profile">Profile</NavLink>}
               {user && <NavLink href="/users">Users</NavLink>}
-              <AuthButtons />
             </div>
           </div>
 
