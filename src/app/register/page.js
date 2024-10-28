@@ -1,13 +1,13 @@
 "use client";
 import { register, signupWithValidation } from "@/api/actions/auth";
 import Input from "@/components/Input";
-import React, { useState } from "react";
+import React, { useState, startTransition } from "react";
 
-import { useFormState, useFormStatus } from "react-dom";
+import { useActionState, useFormStatus } from "react";
 
 // register page
 function Register() {
-  const [state, action] = useFormState(signupWithValidation, undefined);
+  const [state, action] = useActionState(signupWithValidation, undefined);
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [image, setImage] = useState(null);
@@ -18,18 +18,20 @@ function Register() {
     const formData = new FormData();
     formData.append("username", username);
     formData.append("password", password);
+
+    startTransition(async () => {
+      const validationResult = await action(formData);
+    });
     if (image) {
       formData.append("image", image);
     }
 
     await register(formData);
   };
-
   return (
     <div className="">
       <form
-        // onSubmit={handleSubmit}
-        action={action}
+        onSubmit={handleSubmit}
         className="flex flex-col w-52 gap-4 m-auto pt-56"
       >
         <Input
@@ -63,6 +65,7 @@ function Register() {
         )}
         <input
           className=""
+          name="image"
           type="file"
           onChange={(e) => setImage(e.target.files[0])}
           required
