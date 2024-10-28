@@ -1,5 +1,5 @@
 # NextJS-Bank-Project-Collaborators
 
-Mohammad, Fajri, Ibrahim, Hamed
+Mohammad, Fajri, Ibrahim, Hamad
 
 @fajri1997
