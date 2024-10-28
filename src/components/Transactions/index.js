@@ -1,5 +1,5 @@
 "use client";
-// src/components/Transactions.js
+
 import { useEffect, useState } from "react";
 import { myTransactions } from "@/api/actions/auth";
 import SearchBar from "./SearchBar";
@@ -7,9 +7,7 @@ import FilterOptions from "./FilterOptions";
 import DateRangePicker from "./DateRangePicker";
 import TransactionList from "./TransactionList";
 
-{
-  /* Contanier of the Transactions(search-date-filtertype-)*/
-}
+//Contanier of the Transactions(search-date-filtertype-)
 function Transactions() {
   const [transactions, setTransactions] = useState([]);
   const [filteredTransactions, setFilteredTransactions] = useState([]);
@@ -25,6 +23,7 @@ function Transactions() {
         setTransactions(data);
         setFilteredTransactions(data);
       } catch (error) {
+        console.log("This doesnt work because it is not server only");
         console.error("Failed to fetch transactions:", error);
       }
     }
