@@ -66,6 +66,7 @@ function ProfileCard({ user }) {
         className="text-green-400"
         onClick={() => {
           addDeposit(999);
+          window.location.reload();
         }}
       >
         <button>Deposit 999</button>
