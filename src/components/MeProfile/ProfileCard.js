@@ -70,7 +70,14 @@ function ProfileCard({ user }) {
           />
           <h2 className="text-2xl font-semibold text-black">{user.username}</h2>
           <div className="text-black-300 mt-2 text-lg">
-            <span className="font-medium">Balance:</span> ${user.balance}
+            <span className="font-medium">Balance:</span>
+            <p
+              className={`${
+                user.balance > 0 ? "text-green-500" : "text-[--foreground]"
+              }`}
+            >
+              ${user.balance}
+            </p>
           </div>
           <form onSubmit={handleSubmit} className="mt-4">
             <label className="block text-black  font-medium mb-2">
@@ -94,7 +101,7 @@ function ProfileCard({ user }) {
             className="flex flex-col gap-2 mt-3"
           >
             <h1 className="text-xl font-bold">Generate Transfer Link</h1>
-            <div className="flex">
+            <div className="flex justify-center">
               <p className="mr-2">$</p>
               <input
                 type="number"
