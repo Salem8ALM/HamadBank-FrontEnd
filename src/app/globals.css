@@ -17,3 +17,8 @@ body {
   background: var(--background);
   font-family: "TheSansArabic", Helvetica, sans-serif;
 }
+
+.Chart {
+  font-family: sans-serif;
+  text-align: center;
+}

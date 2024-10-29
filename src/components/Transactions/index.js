@@ -1,16 +1,19 @@
 "use client";
-
-import { useEffect, useState } from "react";
-import { getProfile, myTransactions } from "@/api/actions/auth";
+import React, { useEffect, useState } from "react";
+import { myTransactions } from "@/api/actions/auth";
 import SearchBar from "./SearchBar";
 import FilterOptions from "./FilterOptions";
 import DateRangePicker from "./DateRangePicker";
 import TransactionList from "./TransactionList";
 import dynamic from "next/dynamic";
+
+const Chart = dynamic(() => import("./Chart"), {
+  ssr: false,
+});
 const TransactionLoader = dynamic(() => import("./TransactionLoader"), {
   ssr: false,
 });
-//Contanier of the Transactions(search-date-filtertype-)
+
 function Transactions() {
   const [transactions, setTransactions] = useState([]);
   const [filteredTransactions, setFilteredTransactions] = useState([]);
@@ -19,7 +22,6 @@ function Transactions() {
   const [fromDate, setFromDate] = useState("");
   const [toDate, setToDate] = useState("");
   const [loading, setLoading] = useState(true);
-  const [user, setUser] = useState(null);
 
   useEffect(() => {
     async function fetchTransactions() {
@@ -29,17 +31,16 @@ function Transactions() {
     }
     fetchTransactions();
   }, []);
+
   useEffect(() => {
     const timeout = setTimeout(() => {
       setLoading(false);
     }, 1000);
-
     return () => clearTimeout(timeout);
   }, []);
+
   const handleSearch = () => {
     let filtered = transactions;
-    if (search) {
-    }
     if (search) {
       filtered = filtered.filter(
         (transaction) =>
@@ -47,13 +48,11 @@ function Transactions() {
           transaction.amount.toString().includes(search)
       );
     }
-
     if (filterType !== "all") {
       filtered = filtered.filter(
         (transaction) => transaction.type === filterType
       );
     }
-
     if (fromDate && toDate) {
       const from = new Date(fromDate);
       const to = new Date(toDate);
@@ -62,48 +61,61 @@ function Transactions() {
         return date >= from && date <= to;
       });
     }
-
     setFilteredTransactions(filtered);
   };
 
   return (
-    <div className="flex flex-col items-center justify-center h-full py-8 px-4">
-      <div className="w-full max-w-4xl bg-white shadow-md rounded-lg p-6">
-        <h2 className="text-2xl font-semibold text-center mb-6 text-black-700">
-          Transactions
-        </h2>
+    <div className="flex">
+      {/*Chart Section */}
+      <div className="w-2/3 p-14">
+        <div className="bg-white shadow-md rounded-lg p-6">
+          <div className="flex flex-col items-center">
+            <h1 className="text-4xl font-semibold text-center mb-6">
+              Financial Distribution
+            </h1>
+            {loading ? "" : <Chart data={filteredTransactions} />}
+          </div>
+        </div>
+      </div>
 
-        <div className="flex flex-wrap items-center justify-center gap-4 mb-6">
-          <div className="flex flex-col md:flex-row gap-4 w-full md:w-auto">
-            <SearchBar
-              search={search}
-              setSearch={setSearch}
-              handleSearch={handleSearch}
-            />
-            <FilterOptions
-              filterType={filterType}
-              setFilterType={setFilterType}
-            />
+      {/*Transaction Section */}
+      <div className="w-2/3 p-12 ml-5">
+        <div className="bg-white shadow-md rounded-lg p-6">
+          <h2 className="text-4xl font-semibold text-center mb-6">
+            Transactions History
+          </h2>
+          <div className="flex flex-wrap items-center justify-center gap-4 mb-6">
+            <div className="flex flex-col md:flex-row gap-4 w-full md:w-auto">
+              <SearchBar
+                search={search}
+                setSearch={setSearch}
+                handleSearch={handleSearch}
+              />
+              <FilterOptions
+                filterType={filterType}
+                setFilterType={setFilterType}
+              />
+            </div>
+            <div className="flex gap-4">
+              <DateRangePicker
+                fromDate={fromDate}
+                setFromDate={setFromDate}
+                toDate={toDate}
+                setToDate={setToDate}
+              />
+            </div>
           </div>
-          <div className="flex gap-4">
-            <DateRangePicker
-              fromDate={fromDate}
-              setFromDate={setFromDate}
-              toDate={toDate}
-              setToDate={setToDate}
-            />
+          <div className="flex justify-between p-0 font-bold">
+            <h2>Amount</h2>
+            <h2>Date</h2>
+            <h2>Type</h2>
           </div>
+          {loading ? (
+            <TransactionLoader />
+          ) : (
+            <TransactionList transactions={filteredTransactions} />
+          )}
         </div>
-        <div className="flex justify-between p-0 font-bold text-black ">
-          <h2>Amount</h2>
-          <h2>Date</h2>
-          <h2>Type</h2>
-        </div>
-        {loading ? (
-          <TransactionLoader />
-        ) : (
-          <TransactionList transactions={filteredTransactions} />
-        )}
       </div>
     </div>
   );
