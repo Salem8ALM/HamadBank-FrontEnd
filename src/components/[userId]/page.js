@@ -1,14 +1,16 @@
 "use client";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
-import { getUserById } from "@/api/actions/auth";
+import { getUserById, revalidateGivenPath } from "@/api/actions/auth";
 import Backdrop from "@mui/material/Backdrop";
 import CircularProgress from "@mui/material/CircularProgress";
 import { transferFunds } from "@/api/actions/auth";
+import { revalidatePath } from "next/cache";
+import { redirect, usePathname } from "next/navigation";
 
 function UserProfile({ userId }) {
   const [user, setUser] = useState(null);
-  const [loading, setLoading] = useState(true);
+  const [transferAmount, setTransferAmount] = useState(0);
 
   useEffect(() => {
     if (userId) {
@@ -43,9 +45,15 @@ function UserProfile({ userId }) {
     return <p>User not found or data missing.</p>;
   }
 
+  async function handleOnClick(e) {
+    e.preventDefault();
+    await transferFunds(transferAmount, user.username);
+    redirect("/");
+  }
+
   return (
-    <div className=" min-h-screen flex items-center justify-center">
-      <div className="bg-gray-500 p-6 text-center text-black h-96 w-96">
+    <div className="min-h-screen flex items-center justify-center bg-gray-100">
+      <div className="bg-white p-8 text-center text-gray-800 h-auto w-80 rounded-lg shadow-lg">
         <img
           src={
             user.image
@@ -57,10 +65,33 @@ function UserProfile({ userId }) {
         />
 
         <h2 className="text-2xl font-bold mb-2">{user.username}</h2>
-        <p className="text-lg">Balance: ${user.balance}</p>
-        <button onClick={() => transferFunds(5000, user.username)}>
-          Transfer $5,000 to {user.username}
-        </button>
+        <p className="text-lg font-medium text-gray-600">
+          Balance: <span className="text-green-500">${user.balance}</span>
+        </p>
+        <form className="m-3">
+          <h1 className="font-bold">Transfer to {user.username}</h1>
+          <div className="flex flex-row justify-center items-center">
+            <p className="mr-2">$</p>
+            <input
+              className="m-2 bg-[--background]"
+              type="number"
+              placeholder="Deposit amount"
+              onChange={(e) => setTransferAmount(e.target.value)}
+              value={transferAmount}
+              onKeyDown={(event) => {
+                if (!/[0-9]/.test(event.key) && event.key !== "Backspace") {
+                  event.preventDefault();
+                }
+              }}
+            />
+          </div>
+          <button
+            onClick={handleOnClick}
+            className="bg-[--foreground] text-[--background] rounded-md p-2 mt-2 hover:scale-110 duration-200"
+          >
+            Transfer ${transferAmount}
+          </button>
+        </form>
       </div>
     </div>
   );
