@@ -1,11 +1,10 @@
 "use client";
 
-import { login } from "@/api/actions/auth";
 import React, { startTransition } from "react";
 import Input from "@/components/Input";
 
 import { validateLoginForm } from "@/api/actions/auth";
-import { useState, useActionState } from "react";
+import { useActionState } from "react";
 import Image from "next/image";
 
 import loginImage from "@/assets/loginImg.jpg";
@@ -53,14 +52,18 @@ function LoginPage() {
                   </ul>
                 </div>
               )}
+              {state?.error && (
+                <div>
+                  <p>{state.error}</p>
+                </div>
+              )}
               <div className="pt-4">
-                {" "}
                 <button
                   className="bg-red-600 hover:bg-red-800 transition duration-200 text-[--background] w-[100%] m-auto rounded-md p-2"
                   type="submit"
                 >
-                  Login
-                </button>{" "}
+                  {isPending ? "Logging in..." : "Login"}
+                </button>
               </div>
 
               <div className="p-2">

@@ -96,21 +96,27 @@ export async function validateLoginForm(state, formData) {
     };
   }
   // Login
-  const userData = {
-    username: validatedFields.data.username,
-    password: validatedFields.data.password,
-  };
-  const response = await fetch(`${baseUrl}/auth/login`, {
-    method: "POST",
-    headers: await getHeaders(),
-    body: JSON.stringify(userData),
-  });
-  const { token } = await response.json();
+  try {
+    const userData = {
+      username: validatedFields.data.username,
+      password: validatedFields.data.password,
+    };
+    const response = await fetch(`${baseUrl}/auth/login`, {
+      method: "POST",
+      headers: await getHeaders(),
+      body: JSON.stringify(userData),
+    });
+    const { token } = await response.json();
 
-  await setToken(token);
-  console.log(token);
+    await setToken(token);
+    console.log(token);
 
-  redirect("/");
+    redirect("/");
+  } catch (error) {
+    return {
+      error: error.message,
+    };
+  }
 }
 
 export async function validateRegisterForm(state, formData) {
@@ -128,22 +134,30 @@ export async function validateRegisterForm(state, formData) {
     };
   }
   // Register
-  const response = await fetch(`${baseUrl}/auth/register`, {
-    method: "POST",
-    body: formData,
-  });
+  try {
+    const response = await fetch(`${baseUrl}/auth/register`, {
+      method: "POST",
+      body: formData,
+    });
 
-  const data = await response.json();
+    const data = await response.json();
 
-  if (data.token) {
-    await setToken(data.token);
-    console.log(data.token);
-    redirect(`/`);
-  } else {
-    console.log("Registration failed:", data);
+    if (data.token) {
+      await setToken(data.token);
+      console.log(data.token);
+      redirect(`/`);
+    } else {
+      console.log("Registration failed:", data);
+      return {
+        error: data.error,
+      };
+    }
+  } catch (error) {
+    return {
+      error: error.message,
+    };
   }
 }
-
 export async function withdraw(amount) {
   try {
     const response = await fetch(`${baseUrl}/transactions/withdraw`, {
@@ -171,6 +185,14 @@ export async function withdraw(amount) {
 
 export async function addDeposit(amount) {
   const response = await fetch(`${baseUrl}/transactions/deposit`, {
+    method: "PUT",
+    headers: await getHeaders(),
+    body: JSON.stringify({ amount }),
+  });
+}
+
+export async function transferFunds(amount, username) {
+  const response = await fetch(`${baseUrl}/transactions/transfer/${username}`, {
     method: "PUT",
     headers: await getHeaders(),
     body: JSON.stringify({ amount }),

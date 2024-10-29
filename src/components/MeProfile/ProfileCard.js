@@ -13,7 +13,7 @@ function ProfileCard({ user }) {
   useEffect(() => {
     const timeout = setTimeout(() => {
       setLoading(false);
-    }, 10);
+    }, 1000);
     return () => clearTimeout(timeout);
   }, []);
 
@@ -31,8 +31,7 @@ function ProfileCard({ user }) {
     const updatedProfile = await updateProfile(updatedImage);
     console.log("Profile updated:", updatedProfile);
     //refresh the page
-    revalidatePath("/profile");
-    // window.location.reload();
+    window.location.reload();
   };
 
   return (
