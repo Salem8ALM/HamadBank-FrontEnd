@@ -33,7 +33,7 @@ export default function Chart({ data }) {
         nameKey="name"
         cx={200}
         cy={200}
-        outerRadius={150}
+        outerRadius={140}
         fill="#8884d8"
         label
       />

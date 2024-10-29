@@ -13,12 +13,12 @@ async function Navbar() {
           {/* Left section: Logo */}
           <div className="flex items-center">
             <Link href="/">
-              <div className="absolute -translate-x-5 -translate-y-2">
+              <div className="">
                 <Image
-                  src="https://postimg.cc/dZKCHCnJ"
+                  src={"/BankOfFailaka.png"}
                   alt="bank logo"
-                  layout="fill"
-                  objectFit="contain"
+                  width={300}
+                  height={100}
                 />
               </div>
             </Link>
