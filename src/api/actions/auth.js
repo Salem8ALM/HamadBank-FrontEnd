@@ -144,13 +144,6 @@ export async function validateRegisterForm(state, formData) {
   }
 }
 
-// export async function withdraw(amount) {
-//   const response = await fetch(`${baseUrl}/transactions/withdraw`, {
-//     method: "PUT",
-//     body: amount,
-//   });
-// }
-
 export async function withdraw(amount) {
   try {
     const response = await fetch(`${baseUrl}/transactions/withdraw`, {

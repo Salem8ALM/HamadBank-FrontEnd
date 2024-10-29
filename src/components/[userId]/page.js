@@ -2,9 +2,11 @@
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { getUserById } from "@/api/actions/auth";
-
+import Backdrop from "@mui/material/Backdrop";
+import CircularProgress from "@mui/material/CircularProgress";
 function UserProfile({ userId }) {
   const [user, setUser] = useState(null);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     if (userId) {
@@ -23,7 +25,16 @@ function UserProfile({ userId }) {
   }, [userId]);
 
   if (user === null) {
-    return <p>Loading user data...</p>;
+    return (
+      <div>
+        <Backdrop
+          sx={(theme) => ({ color: "#fff", zIndex: theme.zIndex.drawer + 1 })}
+          open
+        >
+          <CircularProgress color="inherit" />
+        </Backdrop>
+      </div>
+    );
   }
 
   if (!user || !user.username) {
