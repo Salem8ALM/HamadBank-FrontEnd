@@ -6,7 +6,10 @@ import SearchBar from "./SearchBar";
 import FilterOptions from "./FilterOptions";
 import DateRangePicker from "./DateRangePicker";
 import TransactionList from "./TransactionList";
-
+import dynamic from "next/dynamic";
+const TransactionLoader = dynamic(() => import("./TransactionLoader"), {
+  ssr: false,
+});
 //Contanier of the Transactions(search-date-filtertype-)
 function Transactions() {
   const [transactions, setTransactions] = useState([]);
@@ -15,21 +18,22 @@ function Transactions() {
   const [filterType, setFilterType] = useState("all");
   const [fromDate, setFromDate] = useState("");
   const [toDate, setToDate] = useState("");
-
+  const [loading, setLoading] = useState(true);
   useEffect(() => {
     async function fetchTransactions() {
-      try {
-        const data = await myTransactions();
-        setTransactions(data);
-        setFilteredTransactions(data);
-      } catch (error) {
-        console.log("This doesnt work because it is not server only");
-        console.error("Failed to fetch transactions:", error);
-      }
+      const data = await myTransactions();
+      setTransactions(data);
+      setFilteredTransactions(data);
     }
     fetchTransactions();
   }, []);
+  useEffect(() => {
+    const timeout = setTimeout(() => {
+      setLoading(false);
+    }, 3000);
 
+    return () => clearTimeout(timeout);
+  }, []);
   const handleSearch = () => {
     let filtered = transactions;
     if (search) {
@@ -93,7 +97,11 @@ function Transactions() {
           <h2>Date</h2>
           <h2>Type</h2>
         </div>
-        <TransactionList transactions={filteredTransactions} />
+        {loading ? (
+          <TransactionLoader />
+        ) : (
+          <TransactionList transactions={filteredTransactions} />
+        )}
       </div>
     </div>
   );
