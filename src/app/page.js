@@ -1,4 +1,5 @@
 import { getProfile } from "@/api/actions/auth";
+import Footer from "@/components/Footer";
 import HomePage from "@/components/HomePage";
 import LoggedHomePage from "@/components/LoggedHomePage";
 import { getUser } from "@/lib/token";

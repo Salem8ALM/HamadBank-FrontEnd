@@ -6,7 +6,6 @@ export default async function UserProfile() {
   const user = await getProfile();
   return (
     <div>
-      <div></div>
       <h2 className="text-center text-5xl font-extrabold text-black mt-12 mb-8">
         My Profile
       </h2>
