@@ -149,7 +149,7 @@ export async function withdraw(amount) {
     const response = await fetch(`${baseUrl}/transactions/withdraw`, {
       method: "PUT",
       headers: await getHeaders(),
-      body: JSON.stringify(amount),
+      body: JSON.stringify({ amount }),
     });
 
     console.log(response);
@@ -157,7 +157,7 @@ export async function withdraw(amount) {
     if (!response.ok) {
       // Handle HTTP errors
       const errorData = await response.json();
-      throw new Error(errorData.message || "Withdrawal failed");
+      throw new Error(errorData);
     }
     //MAKE IT TO HANDLE IF THEY ARE ZERO BALNCE
 
