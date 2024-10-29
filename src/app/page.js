@@ -7,13 +7,15 @@ import { getUser } from "@/lib/token";
 export default async function Home() {
   const user1 = await getUser();
 
+ 
   let user;
   if (user1) user = await getProfile();
 
+ 
   return (
     <>
       {!user1 && <HomePage />}
-      {user1 && <LoggedHomePage user={user} />}
+      {user1 && <LoggedHomePage />}
     </>
   );
 }
