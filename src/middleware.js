@@ -16,13 +16,18 @@ export default async function middleware(req) {
   const isHomePage = path === homePage; //Returns True if path is homepage (used to prevent continous redirecting to homepage)
   const user = await getUser();
 
-  // Redirect to `/login` if page is private!
+  // Redirect to `/register` if page is private!
   if (isPrivateRoute && !user) {
     return NextResponse.redirect(new URL("/register", req.nextUrl));
   }
 
   //If page URL does neither exist (both public and privately), nor is Home page, redirect to home page
   if (!isPublicRoute && !isPrivateRoute && !isHomePage) {
+    return NextResponse.redirect(new URL("/", req.nextUrl));
+  }
+
+  // Return to home page if a logged in user tries to enter the login or register pages
+  if (isPublicRoute && user) {
     return NextResponse.redirect(new URL("/", req.nextUrl));
   }
 

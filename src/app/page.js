@@ -1,9 +1,8 @@
 import HomePage from "@/components/HomePage";
+import { getUser } from "@/lib/token";
 
-export default function Home() {
-  return (
-    <>
-      <HomePage />
-    </>
-  );
+export default async function Home() {
+  const user = await getUser();
+
+  return <>{!user && <HomePage />}</>;
 }
