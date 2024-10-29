@@ -7,6 +7,7 @@ function TransactionList({ transactions }) {
         // Extract only the date part (YYYY-MM-DD) from createdAt
         const dateOnly = transaction.createdAt.split("T")[0];
 
+        console.log(transaction);
         return (
           <div
             key={transaction._id}
@@ -14,14 +15,14 @@ function TransactionList({ transactions }) {
           >
             <span
               className={`${
-                transaction.type === "Deposits"
+                transaction.type === "deposit"
                   ? "text-green-500"
                   : "text-red-500"
               } font-bold`}
             >
-              {transaction.amount > 0
-                ? `-${transaction.amount}`
-                : `+${transaction.amount}`}
+              {transaction.type === "deposit"
+                ? `+${transaction.amount}`
+                : `-${transaction.amount}`}
             </span>
             <span className="text-black">{dateOnly}</span>
             <span className="text-black-500 capitalize">

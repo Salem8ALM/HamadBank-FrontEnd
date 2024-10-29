@@ -4,39 +4,7 @@ import { redirect } from "next/navigation";
 import { baseUrl, getHeaders } from "./config";
 import { deleteToken, setToken } from "@/lib/token";
 
-import { UserSchema } from "@/lib/definitions";
-
-export async function login(username, password) {
-  const userData = { username, password };
-  const response = await fetch(`${baseUrl}/auth/login`, {
-    method: "POST",
-    headers: await getHeaders(),
-    body: JSON.stringify(userData),
-  });
-  const { token } = await response.json();
-
-  await setToken(token);
-  console.log(token);
-
-  redirect("/");
-}
-
-export async function register(formData) {
-  const response = await fetch(`${baseUrl}/auth/register`, {
-    method: "POST",
-    body: formData,
-  });
-
-  const data = await response.json();
-
-  if (data.token) {
-    await setToken(data.token);
-    console.log(data.token);
-    redirect(`/login`);
-  } else {
-    console.log("Registration failed:", data);
-  }
-}
+import { LoginUserSchema, RegisterUserSchema } from "@/lib/definitions";
 
 export async function logout() {
   await deleteToken();
@@ -114,10 +82,10 @@ export async function myTransactions() {
   return await response.json();
 }
 
-export async function signupWithValidation(state, formData) {
+export async function validateLoginForm(state, formData) {
   // Validate form fields
-  const validatedFields = UserSchema.safeParse({
-    name: formData.get("username"),
+  const validatedFields = LoginUserSchema.safeParse({
+    username: formData.get("username"),
     password: formData.get("password"),
   });
 
@@ -127,16 +95,30 @@ export async function signupWithValidation(state, formData) {
       errors: validatedFields.error.flatten().fieldErrors,
     };
   }
+  // Login
+  const userData = {
+    username: validatedFields.data.username,
+    password: validatedFields.data.password,
+  };
+  const response = await fetch(`${baseUrl}/auth/login`, {
+    method: "POST",
+    headers: await getHeaders(),
+    body: JSON.stringify(userData),
+  });
+  const { token } = await response.json();
 
-  // Call the provider or db to create a user...
-  register(formData);
+  await setToken(token);
+  console.log(token);
+
+  redirect("/");
 }
 
-export async function loginWithValidation(state, formData) {
+export async function validateRegisterForm(state, formData) {
   // Validate form fields
-  const validatedFields = UserSchema.safeParse({
-    name: formData.get("username"),
+  const validatedFields = RegisterUserSchema.safeParse({
+    username: formData.get("username"),
     password: formData.get("password"),
+    image: formData.get("image"),
   });
 
   // If any form fields are invalid, return early
@@ -145,9 +127,21 @@ export async function loginWithValidation(state, formData) {
       errors: validatedFields.error.flatten().fieldErrors,
     };
   }
+  // Register
+  const response = await fetch(`${baseUrl}/auth/register`, {
+    method: "POST",
+    body: formData,
+  });
 
-  // Call the provider or db to create a user...
-  login(formData);
+  const data = await response.json();
+
+  if (data.token) {
+    await setToken(data.token);
+    console.log(data.token);
+    redirect(`/`);
+  } else {
+    console.log("Registration failed:", data);
+  }
 }
 
 export async function withdraw(amount) {
@@ -158,18 +152,20 @@ export async function withdraw(amount) {
       body: JSON.stringify({ amount }),
     });
 
+    console.log(response);
+
     if (!response.ok) {
       // Handle HTTP errors
       const errorData = await response.json();
-      throw new Error(errorData.message || "Withdrawal failed");
+      throw new Error(errorData);
     }
     //MAKE IT TO HANDLE IF THEY ARE ZERO BALNCE
 
     const data = await response.json();
-    return data; // This could be success data, like new balance, etc.
+    return data;
   } catch (error) {
     console.error("Error during withdrawal:", error.message);
-    throw error; // Rethrow error if you need to handle it in the calling function
+    throw error;
   }
 }
 
