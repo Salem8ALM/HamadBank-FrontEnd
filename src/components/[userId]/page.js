@@ -48,7 +48,7 @@ function UserProfile({ userId }) {
   async function handleOnClick(e) {
     e.preventDefault();
     await transferFunds(transferAmount, user.username);
-    redirect(pathname);
+    redirect("/");
   }
 
   return (
