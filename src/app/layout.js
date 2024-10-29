@@ -15,7 +15,7 @@ const geistMono = localFont({
 });
 
 export const metadata = {
-  title: "Failaka Bank",
+  title: "AB Bank",
   description: "The most insecure investment of your life",
 };
 
