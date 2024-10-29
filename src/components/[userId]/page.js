@@ -2,9 +2,13 @@
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { getUserById } from "@/api/actions/auth";
+import Backdrop from "@mui/material/Backdrop";
+import CircularProgress from "@mui/material/CircularProgress";
+import { transferFunds } from "@/api/actions/auth";
 
 function UserProfile({ userId }) {
   const [user, setUser] = useState(null);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     if (userId) {
@@ -23,7 +27,16 @@ function UserProfile({ userId }) {
   }, [userId]);
 
   if (user === null) {
-    return <p>Loading user data...</p>;
+    return (
+      <div>
+        <Backdrop
+          sx={(theme) => ({ color: "#fff", zIndex: theme.zIndex.drawer + 1 })}
+          open
+        >
+          <CircularProgress color="inherit" />
+        </Backdrop>
+      </div>
+    );
   }
 
   if (!user || !user.username) {
@@ -45,6 +58,9 @@ function UserProfile({ userId }) {
 
         <h2 className="text-2xl font-bold mb-2">{user.username}</h2>
         <p className="text-lg">Balance: ${user.balance}</p>
+        <button onClick={() => transferFunds(5000, user.username)}>
+          Transfer $5,000 to {user.username}
+        </button>
       </div>
     </div>
   );

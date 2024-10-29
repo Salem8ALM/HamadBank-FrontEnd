@@ -1,19 +1,22 @@
 "use client";
-import { updateProfile } from "@/api/actions/auth";
+import { updateProfile, withdraw, addDeposit } from "@/api/actions/auth";
 import { useEffect, useState } from "react";
 import dynamic from "next/dynamic";
+import { revalidatePath } from "next/cache";
+import { generateDepositLink } from "@/api/actions/actions";
 const ProfileCardLoader = dynamic(() => import("./ProfileCardLoader"), {
   ssr: false,
 });
-
 function ProfileCard({ user }) {
   const [updatedImage, setUpdatedImage] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [generatedLink, setGeneratedLink] = useState(null);
+  const [transferAmount, setTransferAmount] = useState(0);
 
   useEffect(() => {
     const timeout = setTimeout(() => {
       setLoading(false);
-    }, 3000);
+    }, 1000);
     return () => clearTimeout(timeout);
   }, []);
 
@@ -32,6 +35,22 @@ function ProfileCard({ user }) {
     console.log("Profile updated:", updatedProfile);
     //refresh the page
     window.location.reload();
+  };
+
+  const handleGenerateLink = async (e) => {
+    e.preventDefault();
+
+    setGeneratedLink(generateDepositLink(user.username, transferAmount));
+  };
+
+  // Function to copy the link to clipboard
+  const handleCopyLink = async () => {
+    try {
+      await navigator.clipboard.writeText(generatedLink);
+      alert("Link copied to clipboard!");
+    } catch (error) {
+      console.error("Failed to copy the link", error);
+    }
   };
 
   return (
@@ -69,6 +88,50 @@ function ProfileCard({ user }) {
             >
               Save
             </button>
+          </form>
+          <form
+            onSubmit={handleGenerateLink}
+            className="flex flex-col gap-2 mt-3"
+          >
+            <h1 className="text-xl font-bold">Generate Transfer Link</h1>
+            <div className="flex">
+              <p className="mr-2">$</p>
+              <input
+                type="number"
+                placeholder="Deposit amount"
+                onChange={(e) => setTransferAmount(e.target.value)}
+                value={transferAmount}
+                onKeyDown={(event) => {
+                  if (!/[0-9]/.test(event.key)) {
+                    event.preventDefault();
+                  }
+                }}
+              />
+            </div>
+            <button
+              type="submit"
+              className="bg-[--foreground] text-[--background] p-1 rounded-md"
+            >
+              Generate
+            </button>
+            {generatedLink && (
+              <div className="flex flex-col items-center mt-4 gap-2">
+                <a
+                  href={generatedLink}
+                  className="text-blue-600 underline"
+                  target="_blank"
+                >
+                  {generatedLink}
+                </a>
+                <button
+                  type="button"
+                  onClick={handleCopyLink}
+                  className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600"
+                >
+                  Copy Link
+                </button>
+              </div>
+            )}
           </form>
         </div>
       )}
