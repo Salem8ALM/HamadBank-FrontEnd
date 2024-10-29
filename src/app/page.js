@@ -1,9 +1,17 @@
+import { getProfile } from "@/api/actions/auth";
 import HomePage from "@/components/HomePage";
+import LoggedHomePage from "@/components/loggedHomePage";
+import { getUser } from "@/lib/token";
 
-export default function Home() {
+export default async function Home() {
+  const user = await getUser();
+
+  // const user = await getProfile();
+
   return (
     <>
-      <HomePage />
+      {!user && <HomePage />}
+      {user && <LoggedHomePage user={user} />}
     </>
   );
 }

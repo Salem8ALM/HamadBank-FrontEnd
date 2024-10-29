@@ -1,10 +1,11 @@
 "use client";
-import { updateProfile, withdraw, addDeposit } from "@/api/actions/auth";
+import { updateProfile } from "@/api/actions/auth";
 import { useEffect, useState } from "react";
 import dynamic from "next/dynamic";
 const ProfileCardLoader = dynamic(() => import("./ProfileCardLoader"), {
   ssr: false,
 });
+
 function ProfileCard({ user }) {
   const [updatedImage, setUpdatedImage] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -69,23 +70,6 @@ function ProfileCard({ user }) {
               Save
             </button>
           </form>
-          <div
-            className="text-red-400"
-            onClick={() => {
-              withdraw(10);
-              window.location.reload();
-            }}
-          >
-            <button>withdraw</button>
-          </div>
-          <div
-            className="text-green-400"
-            onClick={() => {
-              addDeposit(999);
-            }}
-          >
-            <button>Deposit 999</button>
-          </div>
         </div>
       )}
     </div>

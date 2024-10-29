@@ -5,6 +5,7 @@ import { baseUrl, getHeaders } from "./config";
 import { deleteToken, setToken } from "@/lib/token";
 
 import { UserSchema } from "@/lib/definitions";
+import { revalidatePath } from "next/cache";
 
 export async function login(username, password) {
   const userData = { username, password };
@@ -146,16 +147,8 @@ export async function loginWithValidation(state, formData) {
     };
   }
 
-  // Call the provider or db to create a user...
   login(formData);
 }
-
-// export async function withdraw(amount) {
-//   const response = await fetch(`${baseUrl}/transactions/withdraw`, {
-//     method: "PUT",
-//     body: amount,
-//   });
-// }
 
 export async function withdraw(amount) {
   try {
@@ -166,17 +159,16 @@ export async function withdraw(amount) {
     });
 
     if (!response.ok) {
-      // Handle HTTP errors
       const errorData = await response.json();
       throw new Error(errorData.message || "Withdrawal failed");
     }
-    //MAKE IT TO HANDLE IF THEY ARE ZERO BALNCE
 
     const data = await response.json();
-    return data; // This could be success data, like new balance, etc.
+    revalidatePath("/");
+    return data;
   } catch (error) {
     console.error("Error during withdrawal:", error.message);
-    throw error; // Rethrow error if you need to handle it in the calling function
+    throw error;
   }
 }
 
@@ -186,4 +178,5 @@ export async function addDeposit(amount) {
     headers: await getHeaders(),
     body: JSON.stringify({ amount }),
   });
+  revalidatePath("/");
 }
