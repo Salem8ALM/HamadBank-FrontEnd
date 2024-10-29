@@ -7,6 +7,10 @@ import { deleteToken, getUser, setToken } from "@/lib/token";
 import { LoginUserSchema, RegisterUserSchema } from "@/lib/definitions";
 import { revalidatePath } from "next/cache";
 
+export async function revalidateGivenPath(pathname) {
+  revalidatePath(pathname);
+}
+
 export async function logout() {
   await deleteToken();
   redirect(`/`);

@@ -6,7 +6,8 @@ import { getUser } from "@/lib/token";
 export default async function Home() {
   const user1 = await getUser();
 
-  const user = await getProfile();
+  let user;
+  if (user1) user = await getProfile();
 
   return (
     <>
