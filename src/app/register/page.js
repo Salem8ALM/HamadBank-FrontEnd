@@ -1,9 +1,9 @@
 "use client";
 import { validateRegisterForm } from "@/api/actions/auth";
 import Input from "@/components/Input";
-import React, { useState, startTransition } from "react";
+import React from "react";
 
-import { useActionState, useFormStatus } from "react";
+import { useActionState } from "react";
 import Image from "next/image";
 
 import registerImage from "@/assets/RegisterImg.jpg";
@@ -67,7 +67,11 @@ function Register() {
                   </ul>
                 </div>
               )}
-
+              {state?.error && (
+                <div>
+                  <p>{state.error}</p>
+                </div>
+              )}
               <input className="pt-4" name="image" type="file" required />
 
               <div className="pt-4">
@@ -75,16 +79,16 @@ function Register() {
                   className="bg-red-600 hover:bg-red-800 transition duration-200 text-[--background] w-[100%] m-auto rounded-md p-2"
                   type="submit"
                 >
-                  Register
+                  {isPending ? "Registering..." : "Register"}
                 </button>
               </div>
 
               <div className="p-2">
                 <p>
-                  Already a user?
+                  Already a user?{" "}
                   <a href="./login">
                     <span className="text-red-400 hover:text-red-800 transition duration-200">
-                      login here
+                      Login here
                     </span>
                   </a>
                 </p>
