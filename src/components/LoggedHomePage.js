@@ -63,6 +63,11 @@ function LoggedHomePage({ user }) {
             type="number"
             value={amount}
             onChange={(e) => setAmount(e.target.value)}
+            onKeyDown={(event) => {
+              if (!/[0-9]/.test(event.key) && event.key !== "Backspace") {
+                event.preventDefault();
+              }
+            }}
             placeholder="Enter amount"
             className="p-3 border rounded-lg w-full text-lg placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-100"
           />
