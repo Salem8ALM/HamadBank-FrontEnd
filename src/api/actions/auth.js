@@ -170,6 +170,7 @@ export async function withdraw(amount) {
       const errorData = await response.json();
       throw new Error(errorData.message || "Withdrawal failed");
     }
+    //MAKE IT TO HANDLE IF THEY ARE ZERO BALNCE
 
     const data = await response.json();
     return data; // This could be success data, like new balance, etc.
@@ -181,8 +182,7 @@ export async function withdraw(amount) {
 
 export async function addDeposit(amount) {
   const response = await fetch(`${baseUrl}/transactions/deposit`, {
-    method: "POST",
-    body: amount,
+    method: "PUT",
     headers: await getHeaders(),
     body: JSON.stringify({ amount }),
   });
