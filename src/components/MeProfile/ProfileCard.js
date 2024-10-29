@@ -2,6 +2,7 @@
 import { updateProfile, withdraw, addDeposit } from "@/api/actions/auth";
 import { useEffect, useState } from "react";
 import dynamic from "next/dynamic";
+import { revalidatePath } from "next/cache";
 const ProfileCardLoader = dynamic(() => import("./ProfileCardLoader"), {
   ssr: false,
 });
@@ -12,7 +13,7 @@ function ProfileCard({ user }) {
   useEffect(() => {
     const timeout = setTimeout(() => {
       setLoading(false);
-    }, 3000);
+    }, 10);
     return () => clearTimeout(timeout);
   }, []);
 
@@ -30,7 +31,8 @@ function ProfileCard({ user }) {
     const updatedProfile = await updateProfile(updatedImage);
     console.log("Profile updated:", updatedProfile);
     //refresh the page
-    window.location.reload();
+    revalidatePath("/profile");
+    // window.location.reload();
   };
 
   return (

@@ -1,5 +1,5 @@
 "use client";
-import { register, validateRegisterForm } from "@/api/actions/auth";
+import { validateRegisterForm } from "@/api/actions/auth";
 import Input from "@/components/Input";
 import React, { useState, startTransition } from "react";
 
@@ -7,31 +7,10 @@ import { useActionState, useFormStatus } from "react";
 
 // register page
 function Register() {
-  const [state, action] = useActionState(validateRegisterForm, undefined);
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
-  const [image, setImage] = useState(null);
-
-  // const handleSubmit = async (e) => {
-  //   e.preventDefault();
-
-  //   const formData = new FormData();
-  //   formData.append("username", username);
-  //   formData.append("password", password);
-
-  //   await action(formData);
-
-  //   if (state.errors) {
-  //     console.log(state.errors);
-  //     return;
-  //   }
-
-  //   if (image) {
-  //     formData.append("image", image);
-  //   }
-
-  //   await register(formData);
-  // };
+  const [state, action, isPending] = useActionState(
+    validateRegisterForm,
+    undefined
+  );
 
   return (
     <div className="">
@@ -77,11 +56,15 @@ function Register() {
           required
         />
         <button
-          className="bg-[--foreground] text-[--background] w-[50%] m-auto rounded-md"
+          className={`${
+            isPending ? "bg-gray-600" : "bg-[--foreground]"
+          } text-[--background] w-[50%] m-auto rounded-md `}
           type="submit"
+          disabled={isPending}
         >
           Register
         </button>
+        {isPending && <p>Please wait...</p>}
       </form>
     </div>
   );

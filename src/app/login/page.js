@@ -8,25 +8,10 @@ import { validateLoginForm } from "@/api/actions/auth";
 import { useState, useActionState } from "react";
 
 function LoginPage() {
-  const [state, action] = useActionState(validateLoginForm, undefined);
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-
-    const formData = new FormData();
-    formData.append("username", username);
-    formData.append("password", password);
-
-    startTransition(async () => {
-      await action(formData);
-    });
-    // Stop the login process if there are any errors
-    if (state.errors) return;
-
-    await login(username, password);
-  };
+  const [state, action, isPending] = useActionState(
+    validateLoginForm,
+    undefined
+  );
 
   return (
     <div className="">
@@ -65,11 +50,15 @@ function LoginPage() {
           </div>
         )}
         <button
-          className="bg-[--foreground] text-[--background] w-[50%] m-auto rounded-md"
+          className={`${
+            isPending ? "bg-gray-600" : "bg-[--foreground]"
+          } text-[--background] w-[50%] m-auto rounded-md `}
           type="submit"
+          disabled={isPending}
         >
           Login
         </button>
+        {isPending && <p>Please wait...</p>}
       </form>
     </div>
   );

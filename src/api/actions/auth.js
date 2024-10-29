@@ -6,38 +6,6 @@ import { deleteToken, setToken } from "@/lib/token";
 
 import { LoginUserSchema, RegisterUserSchema } from "@/lib/definitions";
 
-export async function login(username, password) {
-  const userData = { username, password };
-  const response = await fetch(`${baseUrl}/auth/login`, {
-    method: "POST",
-    headers: await getHeaders(),
-    body: JSON.stringify(userData),
-  });
-  const { token } = await response.json();
-
-  await setToken(token);
-  console.log(token);
-
-  redirect("/");
-}
-
-export async function register(formData) {
-  const response = await fetch(`${baseUrl}/auth/register`, {
-    method: "POST",
-    body: formData,
-  });
-
-  const data = await response.json();
-
-  if (data.token) {
-    await setToken(data.token);
-    console.log(data.token);
-    redirect(`/login`);
-  } else {
-    console.log("Registration failed:", data);
-  }
-}
-
 export async function logout() {
   await deleteToken();
   redirect(`/`);
@@ -188,8 +156,10 @@ export async function withdraw(amount) {
     const response = await fetch(`${baseUrl}/transactions/withdraw`, {
       method: "PUT",
       headers: await getHeaders(),
-      body: JSON.stringify({ amount }),
+      body: JSON.stringify(amount),
     });
+
+    console.log(response);
 
     if (!response.ok) {
       // Handle HTTP errors
@@ -199,10 +169,10 @@ export async function withdraw(amount) {
     //MAKE IT TO HANDLE IF THEY ARE ZERO BALNCE
 
     const data = await response.json();
-    return data; // This could be success data, like new balance, etc.
+    return data;
   } catch (error) {
     console.error("Error during withdrawal:", error.message);
-    throw error; // Rethrow error if you need to handle it in the calling function
+    throw error;
   }
 }
 
