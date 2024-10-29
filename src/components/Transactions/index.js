@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { myTransactions } from "@/api/actions/auth";
+import { getProfile, myTransactions } from "@/api/actions/auth";
 import SearchBar from "./SearchBar";
 import FilterOptions from "./FilterOptions";
 import DateRangePicker from "./DateRangePicker";
@@ -19,6 +19,8 @@ function Transactions() {
   const [fromDate, setFromDate] = useState("");
   const [toDate, setToDate] = useState("");
   const [loading, setLoading] = useState(true);
+  const [user, setUser] = useState(null);
+
   useEffect(() => {
     async function fetchTransactions() {
       const data = await myTransactions();
