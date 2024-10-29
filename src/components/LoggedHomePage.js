@@ -22,7 +22,8 @@ function LoggedHomePage({ user }) {
   };
 
   return (
-    <div className="flex justify-center items-center h-screen bg-[--background]">
+    <div className="flex justify-center items-center mt-20 bg-[--background] flex-col">
+      <h1 className="text-xl font-bold mb-4">Dashboard</h1>
       <div className="bg-white shadow-xl rounded-2xl p-8 max-w-md w-full">
         {/* Balance Card */}
         <div className="bg-gradient-to-r from-blue-100 to-blue-400 text-gray-500s text-lg font-semibold mb-8 p-6 rounded-xl text-center shadow-md">

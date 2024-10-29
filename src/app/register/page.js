@@ -72,7 +72,8 @@ function Register() {
                   <p>{state.error}</p>
                 </div>
               )}
-              <input className="pt-4" name="image" type="file" required />
+              <p className="pt-4 text-xs">Profile picture:</p>
+              <input className="" name="image" type="file" required />
 
               <div className="pt-4">
                 <button
