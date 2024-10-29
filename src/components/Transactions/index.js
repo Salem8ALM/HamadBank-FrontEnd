@@ -98,7 +98,7 @@ function Transactions() {
           <h2>Type</h2>
         </div>
         {loading ? (
-          <TransactionLoader className="flex justify-between " />
+          <TransactionLoader />
         ) : (
           <TransactionList transactions={filteredTransactions} />
         )}

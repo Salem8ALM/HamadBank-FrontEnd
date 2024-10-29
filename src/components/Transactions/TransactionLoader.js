@@ -16,12 +16,13 @@ const TransactionLoader = () => {
 const FadingLoaderCard1 = () => {
   return (
     <ContentLoader
-      width={400}
+      width={300}
       height={40}
       backgroundColor="#ababab"
       foregroundColor="#fafafa"
+      className=" w-full"
     >
-      <rect x="70" y="15" rx="5" ry="5" width="300" height="15" />
+      <rect x="0" y="15" rx="5" ry="5" width="800" height="15" />
     </ContentLoader>
   );
 };
@@ -29,12 +30,13 @@ const FadingLoaderCard1 = () => {
 const FadingLoaderCard2 = () => {
   return (
     <ContentLoader
-      width={400}
+      width={300}
       height={40}
       backgroundColor="#bfbfbf"
       foregroundColor="#fafafa"
+      className=" w-full"
     >
-      <rect x="70" y="15" rx="5" ry="5" width="300" height="15" />
+      <rect x="0" y="15" rx="5" ry="5" width="800" height="15" />
     </ContentLoader>
   );
 };
@@ -42,12 +44,13 @@ const FadingLoaderCard2 = () => {
 const FadingLoaderCard3 = () => {
   return (
     <ContentLoader
-      width={400}
+      width={300}
       height={40}
       backgroundColor="#dadada"
       foregroundColor="#fafafa"
+      className=" w-full"
     >
-      <rect x="70" y="15" rx="5" ry="5" width="300" height="15" />
+      <rect x="0" y="15" rx="5" ry="5" width="800" height="15" />
     </ContentLoader>
   );
 };
@@ -55,12 +58,13 @@ const FadingLoaderCard3 = () => {
 const FadingLoaderCard4 = () => {
   return (
     <ContentLoader
-      width={400}
+      width={300}
       height={40}
       backgroundColor="#ececec"
       foregroundColor="#fafafa"
+      className=" w-full"
     >
-      <rect x="70" y="15" rx="5" ry="5" width="300" height="15" />
+      <rect x="0" y="15" rx="5" ry="5" width="800" height="15" />
     </ContentLoader>
   );
 };
@@ -68,12 +72,13 @@ const FadingLoaderCard4 = () => {
 const FadingLoaderCard5 = () => {
   return (
     <ContentLoader
-      width={400}
+      width={300}
       height={40}
       backgroundColor="#f7f7f7"
       foregroundColor="#fafafa"
+      className=" w-full"
     >
-      <rect x="70" y="15" rx="5" ry="5" width="300" height="15" />
+      <rect x="0" y="15" rx="5" ry="5" width="800" height="15" />
     </ContentLoader>
   );
 };
