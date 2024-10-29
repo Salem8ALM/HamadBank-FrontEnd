@@ -2,9 +2,10 @@
 
 import { redirect } from "next/navigation";
 import { baseUrl, getHeaders } from "./config";
-import { deleteToken, setToken } from "@/lib/token";
+import { deleteToken, getUser, setToken } from "@/lib/token";
 
 import { LoginUserSchema, RegisterUserSchema } from "@/lib/definitions";
+import { revalidatePath } from "next/cache";
 
 export async function logout() {
   await deleteToken();
@@ -176,6 +177,9 @@ export async function withdraw(amount) {
     //MAKE IT TO HANDLE IF THEY ARE ZERO BALNCE
 
     const data = await response.json();
+
+    revalidatePath("/");
+
     return data;
   } catch (error) {
     console.error("Error during withdrawal:", error.message);
@@ -189,8 +193,11 @@ export async function addDeposit(amount) {
     headers: await getHeaders(),
     body: JSON.stringify({ amount }),
   });
+
+  revalidatePath("/");
 }
 
+// Username is the user that the funds will be transerred to, the logged in user will transfer their funds
 export async function transferFunds(amount, username) {
   const response = await fetch(`${baseUrl}/transactions/transfer/${username}`, {
     method: "PUT",

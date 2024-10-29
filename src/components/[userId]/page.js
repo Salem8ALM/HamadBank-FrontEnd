@@ -58,8 +58,8 @@ function UserProfile({ userId }) {
 
         <h2 className="text-2xl font-bold mb-2">{user.username}</h2>
         <p className="text-lg">Balance: ${user.balance}</p>
-        <button onClick={() => transferFunds(10, user.username)}>
-          Transfer $10 to {user.username}
+        <button onClick={() => transferFunds(5000, user.username)}>
+          Transfer $5,000 to {user.username}
         </button>
       </div>
     </div>
