@@ -14,7 +14,7 @@ function TransactionList({ transactions }) {
           >
             <span
               className={`${
-                transaction.type === "deposits"
+                transaction.type === "Deposits"
                   ? "text-green-500"
                   : "text-red-500"
               } font-bold`}
