@@ -89,7 +89,7 @@ export default function UserProfile() {
     );
 
   return (
-    <div className="flex flex-col items-center justify-center mt-10">
+    <div className="flex flex-col items-center justify-center my-10 ">
       <h1 className="text-3xl font-bold mb-6">Bank Profile</h1>
       <div className="flex flex-col md:flex-row md:space-x-10 space-y-6 md:space-y-0 w-full px-4 justify-center">
         {/* Profile Section */}
