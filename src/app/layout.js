@@ -2,6 +2,7 @@ import localFont from "next/font/local";
 import "./globals.css";
 
 import Navbar from "@/components/Navbar";
+import Footer from "@/components/Footer";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -15,7 +16,7 @@ const geistMono = localFont({
 });
 
 export const metadata = {
-  title: "AB Bank",
+  title: "Bank of Failaka",
   description: "The most insecure investment of your life",
 };
 
@@ -26,7 +27,9 @@ export default function RootLayout({ children }) {
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         <Navbar />
+
         {children}
+        <Footer />
       </body>
     </html>
   );
