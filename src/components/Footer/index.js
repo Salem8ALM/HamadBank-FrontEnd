@@ -4,7 +4,7 @@ export default function Footer() {
   return (
     <div className="bg-gray-800 text-gray-300 text-sm py-5">
       <div className="max-w-screen-xl mx-auto px-4">
-        <div className="grid grid-cols-1 md:grid-cols-5 gap-0">
+        <div className="grid grid-cols-1  md:grid-cols-5 gap-2">
           {/* Personal Col */}
           <div className="flex flex-col space-y-4">
             <h4 className="text-white font-bold">PERSONAL</h4>
@@ -101,7 +101,7 @@ export default function Footer() {
           <div className="flex flex-col space-y-4">
             <h4 className="text-white font-bold">Download The Failaka App</h4>
             {/* Failaka app download links */}
-            <div className="flex space-x-4 mt-5 size-auto">
+            <div className="flex space-x-4 mt-5 w-40">
               <img
                 src="/ios_footer.png"
                 alt="Download on iOS"
