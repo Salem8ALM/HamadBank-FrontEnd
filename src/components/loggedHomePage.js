@@ -35,7 +35,7 @@ function LoggedHomePage() {
     <div className="flex justify-center items-center min-h-screen bg-gray-100">
       <div className="bg-white shadow-lg rounded-3xl p-10 max-w-md w-full shadow-blue-400">
         {/* Balance Card */}
-        <div className="bg-gradient-to-r from-red-300 to-red-500 text-white text-lg font-semibold mb-8 p-8 rounded-xl text-center shadow-lg">
+        <div className="bg-gradient-to-r from-amber-500 to-amber-700 text-white text-lg font-semibold mb-8 p-8 rounded-xl text-center shadow-lg">
           <p className="text-sm font-light opacity-80">
             Your Available Balance
           </p>
