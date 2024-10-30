@@ -11,7 +11,7 @@ function NavLink({ children, href }) {
       href={href}
       className={`${
         isActive
-          ? " px-3 py-2 rounded-md text-sm font-medium underline transition h-full"
+          ? " px-3 py-2 rounded-md text-sm font-medium underline transition"
           : "hover:bg-gray-100 hover:text-red-950 px-3 py-2 rounded-md text-sm font-medium transition"
       } `}
     >

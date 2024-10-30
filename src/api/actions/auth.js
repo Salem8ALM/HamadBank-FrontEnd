@@ -207,4 +207,5 @@ export async function transferFunds(amount, username) {
     headers: await getHeaders(),
     body: JSON.stringify({ amount }),
   });
+  revalidatePath("/profile");
 }

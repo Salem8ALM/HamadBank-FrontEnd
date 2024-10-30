@@ -36,5 +36,5 @@ export default async function middleware(req) {
 
 // Routes Middleware should not run on
 export const config = {
-  matcher: ["/((?!api|_next/static|_next/image|img/|favicon.ico).*)"],
+  matcher: ["/((?!api|_next/static|_next/image|img/|favicon.ico|.*\\.png).*)"],
 };

@@ -1,12 +1,14 @@
 "use client";
 
-import { getProfile, updateProfile } from "@/api/actions/auth";
+import { getProfile, transferFunds, updateProfile } from "@/api/actions/auth";
 import { generateDepositLink } from "@/api/actions/actions";
 import React, { useEffect, useState } from "react";
 import { getUser } from "@/lib/token";
 
 import Backdrop from "@mui/material/Backdrop";
 import CircularProgress from "@mui/material/CircularProgress";
+import { revalidatePath } from "next/cache";
+import { useRouter } from "next/navigation";
 
 // Profile page
 export default function UserProfile() {
@@ -15,7 +17,11 @@ export default function UserProfile() {
   const [updatedImage, setUpdatedImage] = useState(null);
   const [loading, setLoading] = useState(true);
   const [generatedLink, setGeneratedLink] = useState(null);
-  const [transferAmount, setTransferAmount] = useState(null);
+  const [transferAmount, setTransferAmount] = useState("");
+  const [transferAmountToUser, setTransferAmountToUser] = useState("");
+  const [transferUsername, setTransferUsername] = useState("");
+
+  const router = useRouter();
 
   // Fetch data and show loading animation before everything is fetched
   useEffect(() => {
@@ -27,7 +33,7 @@ export default function UserProfile() {
       setLoading(false);
     };
     fetchUserData();
-  }, []);
+  }, [transferAmountToUser]);
 
   const handleFileChange = (e) => {
     setUpdatedImage(e.target.files[0]);
@@ -57,6 +63,18 @@ export default function UserProfile() {
       console.error("Failed to copy the link", error);
     }
   };
+
+  async function handleTransfer(e) {
+    e.preventDefault();
+    try {
+      await transferFunds(transferAmountToUser, transferUsername);
+      router.refresh();
+      setTransferAmountToUser(""); // Reset amount after transfer
+      setTransferUsername("");
+    } catch (error) {
+      console.error("Transfer failed:", error);
+    }
+  }
 
   if (loading)
     return (
@@ -89,13 +107,13 @@ export default function UserProfile() {
             </div>
             <div className="mb-4">
               <p className="font-medium">Account ID</p>
-              <div className="bg-[--background] brightness-[0.75] p-2 rounded-md mt-1 text-center text-gray-800">
+              <div className="bg-gray-100 p-2 rounded-md mt-1 text-center text-gray-800">
                 {user._id}
               </div>
             </div>
             <div>
               <p className="font-medium">Current Balance</p>
-              <div className="bg-[--background] brightness-[0.75] p-2 rounded-md mt-1 text-center">
+              <div className="bg-gray-100 p-2 rounded-md mt-1 text-center">
                 <p
                   className={`${
                     userProfile.balance > 0
@@ -132,6 +150,37 @@ export default function UserProfile() {
                 </button>
               </form>
             </div>
+            {/* Transfer to user */}
+            <div className="mt-6">
+              <p className="font-medium mb-2">Transfer to user</p>
+              <form onSubmit={handleTransfer}>
+                <input
+                  type="text"
+                  placeholder="Enter username"
+                  className="p-2 border rounded-md flex-1 mx-1"
+                  value={transferUsername}
+                  onChange={(e) => setTransferUsername(e.target.value)}
+                />
+                <input
+                  type="number"
+                  placeholder="Enter amount"
+                  className="p-2 border rounded-md flex-1 mx-1"
+                  value={transferAmountToUser}
+                  onChange={(e) => setTransferAmountToUser(e.target.value)}
+                  onKeyDown={(event) => {
+                    // Keycode 8 is backspace
+                    if (!/[0-9]/.test(event.key) && e.keyCode !== 8) {
+                      event.preventDefault();
+                    }
+                  }}
+                />
+                <button className="bg-gray-600 text-white p-2 rounded-md">
+                  Send
+                </button>{" "}
+              </form>
+            </div>
+
+            {/* Generate deposit link */}
             <div className="mt-6">
               <p className="font-medium mb-2">Generate deposit link</p>
               <form
@@ -145,7 +194,8 @@ export default function UserProfile() {
                   value={transferAmount}
                   onChange={(e) => setTransferAmount(e.target.value)}
                   onKeyDown={(event) => {
-                    if (!/[0-9]/.test(event.key)) {
+                    // Keycode 8 is backspace
+                    if (!/[0-9]/.test(event.key) && e.keyCode !== 8) {
                       event.preventDefault();
                     }
                   }}
