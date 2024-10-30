@@ -58,26 +58,34 @@ function NavbarClientWrapper({ user }) {
 
         {/* Mobile Menu */}
         {isOpen && (
-          <div className="md:hidden flex flex-col items-center space-y-4 mt-4 text-red-700">
-            <NavLink href="/" onClick={toggleMenu}>
-              {user ? "Dashboard" : "Home"}
-            </NavLink>
+          <div className="md:hidden flex flex-col items-center space-y-4 py-4 text-red-700 ">
+            <div onClick={toggleMenu}>
+              <NavLink href="/">{user ? "Dashboard" : "Home"}</NavLink>
+            </div>
             {user && (
-              <NavLink href="/transactions" onClick={toggleMenu}>
-                Transactions
-              </NavLink>
+              <div onClick={toggleMenu}>
+                <NavLink href="/transactions" onClick={toggleMenu}>
+                  Transactions
+                </NavLink>
+              </div>
             )}
             {user && (
-              <NavLink href="/profile" onClick={toggleMenu}>
-                Profile
-              </NavLink>
+              <div onClick={toggleMenu}>
+                <NavLink href="/profile" onClick={toggleMenu}>
+                  Profile
+                </NavLink>
+              </div>
             )}
             {user && (
-              <NavLink href="/users" onClick={toggleMenu}>
-                Users
-              </NavLink>
+              <div onClick={toggleMenu}>
+                <NavLink href="/users" onClick={toggleMenu}>
+                  Users
+                </NavLink>
+              </div>
             )}
-            <AuthButtons />
+            <div onClick={toggleMenu}>
+              <AuthButtons user={user} />
+            </div>
           </div>
         )}
       </div>
