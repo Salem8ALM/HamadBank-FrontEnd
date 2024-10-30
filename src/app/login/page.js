@@ -19,8 +19,8 @@ function LoginPage() {
     <div className="">
       <form action={action} className="flex flex-col">
         <div className="flex items-center justify-center">
-          <div className="flex h-screen w-screen">
-            <div className="w-2/5 bg-grey-200 p-28 pr-98 pl-90">
+          <div className="flex md:flex-cols-reverse md:h-[40rem] md:w-screen md:flex-rows">
+            <div className="w-screen md:w-2/5 bg-grey-200 p-10 md:p-28 md:pr-98 md:pl-90 bg-white">
               <h1 className="text-2xl">Login to your</h1>
               <h1 className="text-2xl">
                 <strong>Online Banking account</strong>
@@ -59,7 +59,7 @@ function LoginPage() {
               )}
               <div className="pt-4">
                 <button
-                  className="bg-red-600 hover:bg-red-800 transition duration-200 text-[--background] w-[100%] m-auto rounded-md p-2"
+                  className="bg-red-600 hover:bg-red-800 transition duration-200 text-white w-[100%] m-auto rounded-md p-2"
                   type="submit"
                 >
                   {isPending ? "Logging in..." : "Login"}
@@ -77,7 +77,7 @@ function LoginPage() {
                 </p>
               </div>
             </div>
-            <div className="w-3/5 bg-green-200 relative h-full overflow-hidden group">
+            <div className="md:w-3/5 bg-red-200 relative h-full overflow-hidden group">
               <div className="absolute inset-0 bg-black opacity-0 group-hover:opacity-30 transition-opacity duration-300"></div>
 
               <Image
