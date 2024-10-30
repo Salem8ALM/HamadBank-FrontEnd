@@ -15,7 +15,7 @@ export default function UserProfile() {
   const [updatedImage, setUpdatedImage] = useState(null);
   const [loading, setLoading] = useState(true);
   const [generatedLink, setGeneratedLink] = useState(null);
-  const [transferAmount, setTransferAmount] = useState(null);
+  const [transferAmount, setTransferAmount] = useState("");
 
   // Fetch data and show loading animation before everything is fetched
   useEffect(() => {
