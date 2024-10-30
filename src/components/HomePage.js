@@ -6,8 +6,9 @@ import Link from "next/link";
 function HomePage() {
   return (
     <>
-      <main className="grid p-10 bg-white grid-cols-1 rounded-lg  overflow-hidden md:grid-cols-2 md:p-20">
-        <div>
+      <main className="grid bg-white md:w-[70rem] pb-5 md:grid-cols-2 rounded-lg md:mx-auto md:pb-0 my-16 overflow-hidden">
+        {" "}
+        <div className="">
           <Image
             width={570}
             height={300}
