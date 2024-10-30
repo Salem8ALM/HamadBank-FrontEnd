@@ -32,7 +32,7 @@ function Register() {
               />
             </div>
 
-            <div className="w-screen md:w-2/5 bg-grey-200 p-10 md:p-28 md:pr-98 md:pl-90">
+            <div className="w-screen md:w-2/5 bg-grey-200 p-10 md:p-28 md:pr-98 md:pl-90 bg-white">
               <h1 className="text-2xl">Register for your</h1>
               <h1 className="text-2xl">
                 <strong>Online Banking account</strong>

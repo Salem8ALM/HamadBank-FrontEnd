@@ -1,6 +1,7 @@
 import localFont from "next/font/local";
 import "./globals.css";
 
+import Favicon from "@/app/favicon.ico";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 
@@ -18,6 +19,7 @@ const geistMono = localFont({
 export const metadata = {
   title: "Bank of Failaka",
   description: "The most insecure investment of your life",
+  icons: [{ rel: "icon", url: Favicon.src }],
 };
 
 export default function RootLayout({ children }) {

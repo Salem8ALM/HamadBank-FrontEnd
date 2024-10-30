@@ -1,6 +1,6 @@
 import React from "react";
 
-function TransactionList({ transactions }) {
+function TransactionList({ transactions, user }) {
   return (
     <div className="space-y-4">
       {transactions.map((transaction, idx) => {
@@ -19,14 +19,16 @@ function TransactionList({ transactions }) {
           >
             <span
               className={`${
-                transaction.type === "deposit"
+                transaction.type === "deposit" ||
+                (transaction.type === "transfer" && transaction.to === user._id)
                   ? "text-green-500"
                   : selfTransfer
                   ? "text-gray-500" // Neutral color for self-transfer
                   : "text-red-500"
               } font-bold`}
             >
-              {transaction.type === "deposit"
+              {transaction.type === "deposit" ||
+              (transaction.type === "transfer" && transaction.to === user._id)
                 ? `+${transaction.amount}`
                 : selfTransfer
                 ? `${transaction.amount}`

@@ -20,7 +20,7 @@ function LoginPage() {
       <form action={action} className="flex flex-col">
         <div className="flex items-center justify-center">
           <div className="flex md:flex-cols-reverse md:h-[40rem] md:w-screen md:flex-rows">
-            <div className="w-screen md:w-2/5 bg-grey-200 p-10 md:p-28 md:pr-98 md:pl-90">
+            <div className="w-screen md:w-2/5 bg-grey-200 p-10 md:p-28 md:pr-98 md:pl-90 bg-white">
               <h1 className="text-2xl">Login to your</h1>
               <h1 className="text-2xl">
                 <strong>Online Banking account</strong>
