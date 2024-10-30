@@ -3,8 +3,7 @@
 import React, { useEffect, useState } from "react";
 
 import dynamic from "next/dynamic";
-import UserCard from "./UserCard";
-// Dynamic import to avoid hydration errors
+import IndividualUserCard from "./IndividualUserCard";
 const UserCardLoader = dynamic(() => import("./UserCardLoader"), {
   ssr: false,
 });
@@ -29,7 +28,7 @@ function UserList({ users }) {
             ? Array.from({ length: 8 }).map((_, index) => (
                 <UserCardLoader key={index} />
               ))
-            : users.map((user) => <UserCard key={user._id} user={user} />)}
+            : users.map((user) => <IndividualUserCard user={user} />)}
         </div>
       </div>
     </div>
