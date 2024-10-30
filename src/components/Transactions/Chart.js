@@ -1,23 +1,30 @@
 import React, { useState, useEffect } from "react";
 import { PieChart, Pie, Tooltip } from "recharts";
 
-export default function Chart({ data, width = 400, height = 400 }) {
+export default function Chart({ data }) {
   const [outerRadius, setOuterRadius] = useState(140);
+  const [chartSize, setChartSize] = useState({ width: 400, height: 400 });
 
-  // Update outerRadius based on screen width
+  // Update chart size and outer radius based on screen width
   useEffect(() => {
-    const updateOuterRadius = () => {
+    const updateChartSize = () => {
       const screenWidth = window.innerWidth;
-      const newRadius = screenWidth < 768 ? 80 : 140; // scale down on smaller screens
+      const newRadius = screenWidth < 768 ? 80 : 140;
+      const newSize =
+        screenWidth < 768
+          ? { width: 300, height: 300 }
+          : { width: 400, height: 400 };
+
       setOuterRadius(newRadius);
+      setChartSize(newSize);
     };
 
-    // Initial radius setting
-    updateOuterRadius();
+    // Initial setting
+    updateChartSize();
 
     // Add event listener for resizing
-    window.addEventListener("resize", updateOuterRadius);
-    return () => window.removeEventListener("resize", updateOuterRadius);
+    window.addEventListener("resize", updateChartSize);
+    return () => window.removeEventListener("resize", updateChartSize);
   }, []);
 
   const data01 = [
@@ -45,13 +52,13 @@ export default function Chart({ data, width = 400, height = 400 }) {
   ];
 
   return (
-    <PieChart width={width} height={height}>
+    <PieChart width={chartSize.width} height={chartSize.height}>
       <Pie
         data={data01}
         dataKey="value"
         nameKey="name"
-        cx={width / 2}
-        cy={height / 2}
+        cx={chartSize.width / 2}
+        cy={chartSize.height / 2}
         outerRadius={outerRadius}
         fill="#8884d8"
         label

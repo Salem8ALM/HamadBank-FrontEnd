@@ -70,7 +70,7 @@ function Transactions({ user }) {
       <div className="md:w-2/3 md:p-14 justify-center m-auto mt-4 md:m-0 md:mt-0">
         <div className="bg-white shadow-md rounded-lg pt-6 md:p-6">
           <div className="flex flex-col items-center">
-            <h1 className="text-4xl font-semibold text-center mb-6">
+            <h1 className="text-2xl md:text-4xl font-semibold text-center mb-6">
               Financial Distribution
             </h1>
             {loading ? "" : <Chart data={filteredTransactions} />}
@@ -79,7 +79,7 @@ function Transactions({ user }) {
       </div>
 
       {/*Transaction Section */}
-      <div className="md:w-2/3 md:p-12 ml-5">
+      <div className="md:w-2/3 md:p-14 justify-center m-auto mt-4 md:m-0 md:mt-0">
         <div className="bg-white shadow-md rounded-lg p-6">
           <h2 className="text-4xl font-semibold text-center mb-6">
             Transactions History
