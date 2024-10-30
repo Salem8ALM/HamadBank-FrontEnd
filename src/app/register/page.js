@@ -20,7 +20,7 @@ function Register() {
       <form action={action} className="flex flex-col">
         <div className="flex items-center justify-center">
           <div className="flex md:flex-cols-reverse md:h-[40rem] md:w-screen md:flex-rows">
-            <div className="w-3/5 bg-red-200 relative w-full overflow-hidden group">
+            <div className="bg-red-200 relative w-full overflow-hidden group hidden md:block">
               <div className="absolute inset-0 bg-black opacity-0 group-hover:opacity-30 transition-opacity duration-300"></div>
 
               <Image
