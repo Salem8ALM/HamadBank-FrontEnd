@@ -94,7 +94,7 @@ export default function UserProfile() {
         <h1 className="text-3xl font-bold mb-6">Bank Profile</h1>
         <div className="flex space-x-10">
           {/* Profile Section */}
-          <div className="bg-white p-8 rounded-md shadow-md w-[30rem]">
+          <div className="bg-white p-8 rounded-md shadow-md w-[30rem] shadow-red-400">
             <div className="flex items-center space-x-4 mb-6 ">
               <img
                 src={`https://react-bank-project.eapi.joincoded.com/${userProfile.image}`}
@@ -128,7 +128,7 @@ export default function UserProfile() {
           </div>
 
           {/* Settings Section */}
-          <div className="bg-white p-8 rounded-md shadow-md w-[40rem]">
+          <div className="bg-white p-8 rounded-md shadow-md w-[40rem] shadow-red-400">
             <div className="mb-6">
               <p className="font-medium mb-2">Change your profile picture</p>
               <form
