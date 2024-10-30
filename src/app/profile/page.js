@@ -121,7 +121,7 @@ export default function UserProfile() {
                       : "text-[--foreground]"
                   }`}
                 >
-                  ${userProfile.balance}
+                  {userProfile.balance} KWD
                 </p>
               </div>
             </div>
