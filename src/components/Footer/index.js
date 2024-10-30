@@ -2,9 +2,9 @@ import React from "react";
 
 export default function Footer() {
   return (
-    <div className="bg-gray-800 text-gray-300 text-sm py-5 mt-10">
+    <div className="bg-gray-800 text-gray-300 text-sm py-5 ">
       <div className="max-w-screen-xl mx-auto px-4">
-        <div className="grid grid-cols-1 md:grid-cols-5 gap-0">
+        <div className="grid grid-cols-1  md:grid-cols-5 gap-2">
           {/* Personal Col */}
           <div className="flex flex-col space-y-4">
             <h4 className="text-white font-bold">PERSONAL</h4>
@@ -103,17 +103,17 @@ export default function Footer() {
             {/* Failaka app download links */}
             <div className="flex mt-5 size-auto flex-wrap">
               <img
-                src="/ios_footer.png"
+                src="https://boubyan.bankboubyan.com/static/boubyan/images/mob/ios_footer.e31ba0ef5f38.png"
                 alt="Download on iOS"
                 className="hover:opacity-75 w-40"
               />
               <img
-                src="android_footer.png"
+                src="https://boubyan.bankboubyan.com/static/boubyan/images/mob/android_footer.23aa5df21554.png"
                 alt="Download on Android"
                 className="hover:opacity-75 w-40 md:mt-2"
               />
               <img
-                src="./huawei_footer.png"
+                src="https://boubyan.bankboubyan.com/static/boubyan/images/mob/huawei_footer.a238b880a2b7.png"
                 alt="Download on Huawei"
                 className="hover:opacity-75 w-40 md:mt-2"
               />
