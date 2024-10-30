@@ -2,11 +2,7 @@ import { getUser } from "@/lib/token";
 import NavLink from "./NavLink";
 import { logout } from "@/api/actions/auth";
 
-async function AuthButtons() {
-  // TODO: Check if there's a user!
-
-  const user = await getUser();
-
+function AuthButtons({ user }) {
   if (user)
     return (
       <button

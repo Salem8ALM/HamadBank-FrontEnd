@@ -4,6 +4,7 @@ import "./globals.css";
 import Favicon from "@/app/favicon.ico";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import { getUser } from "@/lib/token";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -22,7 +23,7 @@ export const metadata = {
   icons: [{ rel: "icon", url: Favicon.src }],
 };
 
-export default function RootLayout({ children }) {
+export default async function RootLayout({ children }) {
   return (
     <html lang="en">
       <body
