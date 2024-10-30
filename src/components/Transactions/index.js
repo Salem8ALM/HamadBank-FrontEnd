@@ -14,7 +14,7 @@ const TransactionLoader = dynamic(() => import("./TransactionLoader"), {
   ssr: false,
 });
 
-function Transactions() {
+function Transactions({ user }) {
   const [transactions, setTransactions] = useState([]);
   const [filteredTransactions, setFilteredTransactions] = useState([]);
   const [search, setSearch] = useState("");
@@ -113,7 +113,7 @@ function Transactions() {
           {loading ? (
             <TransactionLoader />
           ) : (
-            <TransactionList transactions={filteredTransactions} />
+            <TransactionList transactions={filteredTransactions} user={user} />
           )}
         </div>
       </div>

@@ -27,7 +27,7 @@ async function Navbar() {
           {/* Center section: Navigation links */}
           <div className="flex-1 flex justify-center items-center">
             <div className="flex items-baseline space-x-7 text-red-700">
-              <NavLink href="/">Home</NavLink>
+              <NavLink href="/">{user ? "Dashboard" : "Home"}</NavLink>
               {user && <NavLink href="/transactions">Transactions</NavLink>}
               {user && <NavLink href="/profile">Profile</NavLink>}
               {user && <NavLink href="/users">Users</NavLink>}
