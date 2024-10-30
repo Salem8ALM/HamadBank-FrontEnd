@@ -7,7 +7,7 @@ import Image from "next/image";
 async function Navbar() {
   const user = await getUser();
   return (
-    <nav className="bg-white shadow-2xl">
+    <nav className="bg-white shadow-2xl sticky top-0 z-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center h-16   ">
           {/* Left section: Logo */}

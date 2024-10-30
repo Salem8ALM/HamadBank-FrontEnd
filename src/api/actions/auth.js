@@ -115,13 +115,12 @@ export async function validateLoginForm(state, formData) {
 
     await setToken(token);
     console.log(token);
-
-    redirect("/");
   } catch (error) {
     return {
       error: error.message,
     };
   }
+  redirect("/");
 }
 
 export async function validateRegisterForm(state, formData) {
@@ -150,7 +149,6 @@ export async function validateRegisterForm(state, formData) {
     if (data.token) {
       await setToken(data.token);
       console.log(data.token);
-      redirect(`/`);
     } else {
       console.log("Registration failed:", data);
       return {
@@ -162,6 +160,7 @@ export async function validateRegisterForm(state, formData) {
       error: error.message,
     };
   }
+  redirect(`/`);
 }
 export async function withdraw(amount) {
   try {

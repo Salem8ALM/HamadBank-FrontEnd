@@ -105,7 +105,7 @@ function Transactions() {
               />
             </div>
           </div>
-          <div className="flex justify-between p-0 font-bold">
+          <div className="flex justify-around p-0 font-bold">
             <h2>Amount</h2>
             <h2>Date</h2>
             <h2>Type</h2>
