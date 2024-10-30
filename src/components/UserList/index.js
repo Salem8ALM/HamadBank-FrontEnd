@@ -12,6 +12,7 @@ const UserCardLoader = dynamic(() => import("./UserCardLoader"), {
 
 function UserList({ users }) {
   const [loading, setLoading] = useState(true);
+  const [searchTerm, setSearchTerm] = useState("");
 
   useEffect(() => {
     const timeout = setTimeout(() => {
@@ -20,6 +21,13 @@ function UserList({ users }) {
 
     return () => clearTimeout(timeout);
   }, []);
+
+  // Filter users based on the search term
+  const filteredUsers = users.filter(
+    (user) =>
+      user.username && // Ensure username exists
+      user.username.toLowerCase().includes(searchTerm.toLowerCase())
+  );
 
   return (
     <div className="bg-white-900 min-h-screen h-screen flex items-center justify-center  inset-0 z-[-1] ">

@@ -13,7 +13,7 @@ function LoggedHomePage() {
       setUser(profile);
     }
     fetchUserProfile();
-  }, []);
+  }, [amount]);
 
   if (!user) return null; // Render nothing until user data is available
 
