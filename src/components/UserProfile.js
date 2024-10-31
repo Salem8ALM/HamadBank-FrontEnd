@@ -7,7 +7,10 @@ import { getUser } from "@/lib/token";
 
 import Backdrop from "@mui/material/Backdrop";
 import CircularProgress from "@mui/material/CircularProgress";
-import { revalidatePath } from "next/cache";
+import Button from "@mui/material/Button";
+import Snackbar from "@mui/material/Snackbar";
+import IconButton from "@mui/material/IconButton";
+import CloseIcon from "@mui/icons-material/Close";
 import { useRouter } from "next/navigation";
 
 // Profile page
@@ -20,10 +23,11 @@ export default function UserProfile() {
   const [transferAmount, setTransferAmount] = useState("");
   const [transferAmountToUser, setTransferAmountToUser] = useState("");
   const [transferUsername, setTransferUsername] = useState("");
+  const [snackbarOpen, setSnackbarOpen] = useState(false);
+  const [snackbarMessage, setSnackbarMessage] = useState("");
 
   const router = useRouter();
 
-  // Fetch data and show loading animation before everything is fetched
   useEffect(() => {
     const fetchUserData = async () => {
       const profile = await getProfile();
@@ -35,6 +39,13 @@ export default function UserProfile() {
     fetchUserData();
   }, [transferAmountToUser]);
 
+  const handleSnackbarClose = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+    setSnackbarOpen(false);
+  };
+
   const handleFileChange = (e) => {
     setUpdatedImage(e.target.files[0]);
   };
@@ -42,25 +53,34 @@ export default function UserProfile() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!updatedImage) {
-      alert("Please choose an image file before saving.");
+      setSnackbarMessage("Please choose an image file before upload.");
+      setSnackbarOpen(true);
       return;
     }
     const updatedProfile = await updateProfile(updatedImage);
     console.log("Profile updated:", updatedProfile);
-    window.location.reload();
+    setSnackbarMessage("Profile picture updated.");
+    setSnackbarOpen(true);
+    // window.location.reload();
   };
 
   const handleGenerateLink = async (e) => {
     e.preventDefault();
-    setGeneratedLink(generateDepositLink(userProfile.username, transferAmount));
+    const link = generateDepositLink(userProfile.username, transferAmount);
+    setGeneratedLink(link);
+    setSnackbarMessage("Deposit link generated.");
+    setSnackbarOpen(true);
   };
 
   const handleCopyLink = async () => {
     try {
       await navigator.clipboard.writeText(generatedLink);
-      alert("Link copied to clipboard!");
+      setSnackbarMessage("Link copied to clipboard!");
+      setSnackbarOpen(true);
     } catch (error) {
       console.error("Failed to copy the link", error);
+      setSnackbarMessage("Failed to copy the link.");
+      setSnackbarOpen(true);
     }
   };
 
@@ -71,8 +91,12 @@ export default function UserProfile() {
       router.refresh();
       setTransferAmountToUser(""); // Reset amount after transfer
       setTransferUsername("");
+      setSnackbarMessage("Transfer successful.");
+      setSnackbarOpen(true);
     } catch (error) {
       console.error("Transfer failed:", error);
+      setSnackbarMessage("Transfer failed.");
+      setSnackbarOpen(true);
     }
   }
 
@@ -141,44 +165,32 @@ export default function UserProfile() {
                 className="bg-gray-500 text-white rounded-md p-2 cursor-pointer"
                 aria-label="Browse images"
               />
-              <button
-                type="submit"
-                className="bg-gray-600 text-white p-2 rounded-md"
-              >
+              <Button type="submit" variant="contained" color="primary">
                 Upload
-              </button>
+              </Button>
             </form>
           </div>
-
           {/* Transfer to user */}
           <div className="mt-6">
             <p className="font-medium mb-2">Transfer to user</p>
-            <form
-              onSubmit={handleTransfer}
-              className="flex flex-col md:flex-row md:space-x-2 space-y-2 md:space-y-0"
-            >
+            <form onSubmit={handleTransfer}>
               <input
                 type="text"
                 placeholder="Enter username"
-                className="p-2 border rounded-md flex-1"
+                className="p-2 border rounded-md flex-1 mx-1 my-1"
                 value={transferUsername}
                 onChange={(e) => setTransferUsername(e.target.value)}
               />
               <input
                 type="number"
                 placeholder="Enter amount"
-                className="p-2 border rounded-md flex-1"
+                className="p-2 border rounded-md flex-1 mx-1 my-1"
                 value={transferAmountToUser}
                 onChange={(e) => setTransferAmountToUser(e.target.value)}
-                onKeyDown={(event) => {
-                  if (!/[0-9]/.test(event.key) && event.keyCode !== 8) {
-                    event.preventDefault();
-                  }
-                }}
               />
-              <button className="bg-gray-600 text-white p-2 rounded-md">
+              <Button type="submit" variant="contained" color="primary">
                 Send
-              </button>
+              </Button>
             </form>
           </div>
 
@@ -187,23 +199,23 @@ export default function UserProfile() {
             <p className="font-medium mb-2">Generate deposit link</p>
             <form
               onSubmit={handleGenerateLink}
-              className="flex flex-col md:flex-row md:space-x-2 space-y-2 md:space-y-0"
+              className="flex items-center space-x-2"
             >
               <input
                 type="number"
                 placeholder="Enter amount"
-                className="p-2 border rounded-md flex-1"
+                className="p-2 border rounded-md flex-1 text-"
                 value={transferAmount}
                 onChange={(e) => setTransferAmount(e.target.value)}
-                onKeyDown={(event) => {
-                  if (!/[0-9]/.test(event.key) && event.keyCode !== 8) {
-                    event.preventDefault();
-                  }
-                }}
               />
-              <button className="bg-gray-600 text-white p-2 rounded-md">
+              <Button
+                type="submit"
+                variant="contained"
+                color="primary"
+                className="text-xs md:text-base"
+              >
                 Generate
-              </button>
+              </Button>
             </form>
             {generatedLink && (
               <div className="flex flex-col items-center mt-4 gap-2">
@@ -215,18 +227,39 @@ export default function UserProfile() {
                 >
                   {generatedLink}
                 </a>
-                <button
+                <Button
                   type="button"
                   onClick={handleCopyLink}
-                  className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600"
+                  variant="contained"
+                  color="secondary"
                 >
                   Copy Link
-                </button>
+                </Button>
               </div>
             )}
           </div>
         </div>
       </div>
+      <Snackbar
+        open={snackbarOpen}
+        autoHideDuration={2000}
+        onClose={handleSnackbarClose}
+        message={snackbarMessage}
+        anchorOrigin={{
+          vertical: "top",
+          horizontal: "right",
+        }}
+        action={
+          <IconButton
+            size="small"
+            aria-label="close"
+            color="inherit"
+            onClick={handleSnackbarClose}
+          >
+            <CloseIcon fontSize="small" />
+          </IconButton>
+        }
+      />
     </div>
   );
 }

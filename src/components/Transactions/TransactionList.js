@@ -20,20 +20,21 @@ function TransactionList({ transactions, user }) {
             >
               <span
                 className={`${
-                  transaction.type === "deposit" ||
-                  (transaction.type === "transfer" &&
-                    transaction.to === user._id)
-                    ? "text-green-500"
-                    : selfTransfer
+                  selfTransfer
                     ? "text-gray-500" // Neutral color for self-transfer
+                    : transaction.type === "deposit" ||
+                      (transaction.type === "transfer" &&
+                        transaction.to === user._id)
+                    ? "text-green-500"
                     : "text-red-500"
                 } font-bold`}
               >
-                {transaction.type === "deposit" ||
-                (transaction.type === "transfer" && transaction.to === user._id)
-                  ? `+${transaction.amount}`
-                  : selfTransfer
+                {selfTransfer
                   ? `${transaction.amount}`
+                  : transaction.type === "deposit" ||
+                    (transaction.type === "transfer" &&
+                      transaction.to === user._id)
+                  ? `+${transaction.amount}`
                   : `-${transaction.amount}`}
               </span>
               <span className="text-black">{dateOnly}</span>
