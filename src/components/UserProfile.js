@@ -7,10 +7,7 @@ import { getUser } from "@/lib/token";
 
 import Backdrop from "@mui/material/Backdrop";
 import CircularProgress from "@mui/material/CircularProgress";
-import Button from "@mui/material/Button";
-import Snackbar from "@mui/material/Snackbar";
-import IconButton from "@mui/material/IconButton";
-import CloseIcon from "@mui/icons-material/Close";
+import { revalidatePath } from "next/cache";
 import { useRouter } from "next/navigation";
 
 // Profile page
@@ -23,11 +20,10 @@ export default function UserProfile() {
   const [transferAmount, setTransferAmount] = useState("");
   const [transferAmountToUser, setTransferAmountToUser] = useState("");
   const [transferUsername, setTransferUsername] = useState("");
-  const [snackbarOpen, setSnackbarOpen] = useState(false);
-  const [snackbarMessage, setSnackbarMessage] = useState("");
 
   const router = useRouter();
 
+  // Fetch data and show loading animation before everything is fetched
   useEffect(() => {
     const fetchUserData = async () => {
       const profile = await getProfile();
@@ -39,13 +35,6 @@ export default function UserProfile() {
     fetchUserData();
   }, [transferAmountToUser]);
 
-  const handleSnackbarClose = (event, reason) => {
-    if (reason === "clickaway") {
-      return;
-    }
-    setSnackbarOpen(false);
-  };
-
   const handleFileChange = (e) => {
     setUpdatedImage(e.target.files[0]);
   };
@@ -53,34 +42,25 @@ export default function UserProfile() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!updatedImage) {
-      setSnackbarMessage("Please choose an image file before upload.");
-      setSnackbarOpen(true);
+      alert("Please choose an image file before saving.");
       return;
     }
     const updatedProfile = await updateProfile(updatedImage);
     console.log("Profile updated:", updatedProfile);
-    setSnackbarMessage("Profile picture updated.");
-    setSnackbarOpen(true);
-    // window.location.reload();
+    window.location.reload();
   };
 
   const handleGenerateLink = async (e) => {
     e.preventDefault();
-    const link = generateDepositLink(userProfile.username, transferAmount);
-    setGeneratedLink(link);
-    setSnackbarMessage("Deposit link generated.");
-    setSnackbarOpen(true);
+    setGeneratedLink(generateDepositLink(userProfile.username, transferAmount));
   };
 
   const handleCopyLink = async () => {
     try {
       await navigator.clipboard.writeText(generatedLink);
-      setSnackbarMessage("Link copied to clipboard!");
-      setSnackbarOpen(true);
+      alert("Link copied to clipboard!");
     } catch (error) {
       console.error("Failed to copy the link", error);
-      setSnackbarMessage("Failed to copy the link.");
-      setSnackbarOpen(true);
     }
   };
 
@@ -91,12 +71,8 @@ export default function UserProfile() {
       router.refresh();
       setTransferAmountToUser(""); // Reset amount after transfer
       setTransferUsername("");
-      setSnackbarMessage("Transfer successful.");
-      setSnackbarOpen(true);
     } catch (error) {
       console.error("Transfer failed:", error);
-      setSnackbarMessage("Transfer failed.");
-      setSnackbarOpen(true);
     }
   }
 
@@ -169,104 +145,88 @@ export default function UserProfile() {
                 type="submit"
                 className="bg-gray-600 text-white p-2 rounded-md"
               >
-                <input
-                  type="file"
-                  accept="image/*"
-                  onChange={handleFileChange}
-                  className="bg-gray-500 text-white rounded-md p-1 cursor-pointer"
-                  aria-label="Browse images"
-                />
-                <Button type="submit" variant="contained" color="primary">
-                  Upload
-                </Button>
-              </form>
-            </div>
-            {/* Transfer to user */}
-            <div className="mt-6">
-              <p className="font-medium mb-2">Transfer to user</p>
-              <form onSubmit={handleTransfer}>
-                <input
-                  type="text"
-                  placeholder="Enter username"
-                  className="p-2 border rounded-md flex-1 mx-1"
-                  value={transferUsername}
-                  onChange={(e) => setTransferUsername(e.target.value)}
-                />
-                <input
-                  type="number"
-                  placeholder="Enter amount"
-                  className="p-2 border rounded-md flex-1 mx-1"
-                  value={transferAmountToUser}
-                  onChange={(e) => setTransferAmountToUser(e.target.value)}
-                />
-                <Button type="submit" variant="contained" color="primary">
-                  Send
-                </Button>
-              </form>
-            </div>
+                Upload
+              </button>
+            </form>
+          </div>
 
-            {/* Generate deposit link */}
-            <div className="mt-6">
-              <p className="font-medium mb-2">Generate deposit link</p>
-              <form
-                onSubmit={handleGenerateLink}
-                className="flex items-center space-x-2"
-              >
-                <input
-                  type="number"
-                  placeholder="Enter amount"
-                  className="p-2 border rounded-md flex-1"
-                  value={transferAmount}
-                  onChange={(e) => setTransferAmount(e.target.value)}
-                />
-                <Button type="submit" variant="contained" color="primary">
-                  Generate
-                </Button>
-              </form>
-              {generatedLink && (
-                <div className="flex flex-col items-center mt-4 gap-2">
-                  <a
-                    href={generatedLink}
-                    className="text-blue-600 underline"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    {generatedLink}
-                  </a>
-                  <Button
-                    type="button"
-                    onClick={handleCopyLink}
-                    variant="contained"
-                    color="secondary"
-                  >
-                    Copy Link
-                  </Button>
-                </div>
-              )}
-            </div>
+          {/* Transfer to user */}
+          <div className="mt-6">
+            <p className="font-medium mb-2">Transfer to user</p>
+            <form
+              onSubmit={handleTransfer}
+              className="flex flex-col md:flex-row md:space-x-2 space-y-2 md:space-y-0"
+            >
+              <input
+                type="text"
+                placeholder="Enter username"
+                className="p-2 border rounded-md flex-1"
+                value={transferUsername}
+                onChange={(e) => setTransferUsername(e.target.value)}
+              />
+              <input
+                type="number"
+                placeholder="Enter amount"
+                className="p-2 border rounded-md flex-1"
+                value={transferAmountToUser}
+                onChange={(e) => setTransferAmountToUser(e.target.value)}
+                onKeyDown={(event) => {
+                  if (!/[0-9]/.test(event.key) && event.keyCode !== 8) {
+                    event.preventDefault();
+                  }
+                }}
+              />
+              <button className="bg-gray-600 text-white p-2 rounded-md">
+                Send
+              </button>
+            </form>
+          </div>
+
+          {/* Generate deposit link */}
+          <div className="mt-6">
+            <p className="font-medium mb-2">Generate deposit link</p>
+            <form
+              onSubmit={handleGenerateLink}
+              className="flex flex-col md:flex-row md:space-x-2 space-y-2 md:space-y-0"
+            >
+              <input
+                type="number"
+                placeholder="Enter amount"
+                className="p-2 border rounded-md flex-1"
+                value={transferAmount}
+                onChange={(e) => setTransferAmount(e.target.value)}
+                onKeyDown={(event) => {
+                  if (!/[0-9]/.test(event.key) && event.keyCode !== 8) {
+                    event.preventDefault();
+                  }
+                }}
+              />
+              <button className="bg-gray-600 text-white p-2 rounded-md">
+                Generate
+              </button>
+            </form>
+            {generatedLink && (
+              <div className="flex flex-col items-center mt-4 gap-2">
+                <a
+                  href={generatedLink}
+                  className="text-blue-600 underline"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  {generatedLink}
+                </a>
+                <button
+                  type="button"
+                  onClick={handleCopyLink}
+                  className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600"
+                >
+                  Copy Link
+                </button>
+              </div>
+            )}
           </div>
         </div>
       </div>
-      <Snackbar
-        open={snackbarOpen}
-        autoHideDuration={2000}
-        onClose={handleSnackbarClose}
-        message={snackbarMessage}
-        anchorOrigin={{
-          vertical: "top",
-          horizontal: "right",
-        }}
-        action={
-          <IconButton
-            size="small"
-            aria-label="close"
-            color="inherit"
-            onClick={handleSnackbarClose}
-          >
-            <CloseIcon fontSize="small" />
-          </IconButton>
-        }
-      />
     </div>
   );
 }
