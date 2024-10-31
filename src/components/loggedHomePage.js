@@ -32,39 +32,42 @@ function LoggedHomePage() {
   };
 
   return (
-    <div className="flex justify-center items-center min-h-screen bg-gray-100">
-      <div className="bg-white shadow-lg rounded-3xl p-10 max-w-md w-full shadow-blue-400">
+    <div className="flex justify-center items-center min-h-screen bg-gray-50">
+      <div className="bg-white shadow-xl rounded-xl p-8 max-w-md w-full">
         {/* Balance Card */}
         <div className="bg-gradient-to-r from-amber-500 to-amber-700 text-white text-lg font-semibold mb-8 p-8 rounded-xl text-center shadow-lg">
           <p className="text-sm font-light opacity-80">
             Your Available Balance
           </p>
-          <p className="text-4xl font-bold mt-2">{user.balance} KWD</p>
+          <p className="text-4xl font-bold mt-2">
+            {user.balance}{" "}
+            <span className="text-4xl font-bold mt-2 text-green-500">KWD</span>
+          </p>
         </div>
 
-        {/* Toggle for Action Selection using ShadCN Switch */}
-        <div className="flex justify-center items-center mb-8">
+        {/* Toggle for Action Selection */}
+        <div className="flex justify-center items-center mb-6">
           <div className="flex items-center space-x-4">
             <span
               className={`font-medium ${
                 action === "withdraw" ? "text-red-500" : "text-gray-500"
               }`}
             >
-              {/* Withdraw */}
+              Withdraw
             </span>
             <Switch
               checked={action === "deposit"}
               onCheckedChange={(checked) =>
                 setAction(checked ? "deposit" : "withdraw")
               }
-              className="transform scale-150 transition duration-300 ease-in-out shadow-sm"
+              className="transform scale-150 transition duration-300 ease-in-out"
             />
             <span
               className={`font-medium ${
                 action === "deposit" ? "text-green-500" : "text-gray-500"
               }`}
             >
-              {/* Deposit */}
+              Deposit
             </span>
           </div>
         </div>
@@ -76,12 +79,7 @@ function LoggedHomePage() {
             value={amount}
             onChange={(e) => setAmount(e.target.value)}
             placeholder="Enter amount"
-            className="p-3 border border-gray-300 rounded-lg w-full text-lg placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-300 focus:border-transparent transition duration-200"
-            onKeyDown={(event) => {
-              if (!/[0-9]/.test(event.key) && event.key !== "Backspace") {
-                event.preventDefault();
-              }
-            }}
+            className="w-full p-3 border border-gray-300 rounded-lg text-lg placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-300 focus:border-transparent transition duration-200"
           />
 
           {/* Preset Amount Buttons */}
@@ -90,12 +88,9 @@ function LoggedHomePage() {
               <button
                 key={value}
                 onClick={() => setPresetAmount(value)}
-                className="px-4 py-2 bg-gray-100 hover:bg-gray-200 rounded-lg text-sm font-medium text-gray-700 shadow-md hover:shadow-lg transition-transform duration-150 transform hover:scale-105 active:scale-95"
+                className="bg-gray-200 hover:bg-gray-300 text-gray-800 px-4 py-2 rounded-lg text-sm font-medium shadow transition-transform duration-150 transform hover:scale-105 active:scale-95"
               >
-                <span>{value}</span>
-                <span className="text-[10px] leading-none text-gray-500 ml-1">
-                  K.D
-                </span>
+                {value} KD
               </button>
             ))}
           </div>
@@ -103,11 +98,11 @@ function LoggedHomePage() {
           {/* Action Button */}
           <button
             onClick={handleAction}
-            className={`w-full py-3 rounded-lg text-lg font-semibold text-white duration-300 transform hover:scale-105 hover:duration-200 ${
+            className={`w-full py-3 rounded-lg text-lg font-semibold text-white shadow-md hover:shadow-lg active:scale-95 transition-all duration-300 ease-in-out ${
               action === "deposit"
                 ? "bg-green-500 hover:bg-green-600"
                 : "bg-red-500 hover:bg-red-600"
-            } shadow-md hover:shadow-lg active:scale-95`}
+            }`}
           >
             {action === "deposit" ? "Deposit" : "Withdraw"}
           </button>
