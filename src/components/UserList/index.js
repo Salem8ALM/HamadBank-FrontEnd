@@ -43,7 +43,7 @@ function UserList({ users }) {
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {loading
-            ? Array.from({ length: 8 }).map((_, index) => (
+            ? Array.from({ length: 9 }).map((_, index) => (
                 <UserCardLoader key={index} />
               ))
             : filteredUsers.map((user) => (
