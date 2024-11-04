@@ -1,33 +1,50 @@
 import React from "react";
 
-function TransactionList({ transactions }) {
+function TransactionList({ transactions, user }) {
   return (
     <div className="space-y-4">
-      {transactions.map((transaction) => {
-        // Extract only the date part (YYYY-MM-DD) from createdAt
-        const dateOnly = transaction.createdAt.split("T")[0];
+      {transactions
+        .map((transaction, idx) => {
+          // Check if the transaction is a self-transfer
+          const selfTransfer =
+            transaction.from === transaction.to &&
+            transaction.type === "transfer";
 
-        return (
-          <div
-            key={transaction._id}
-            className="flex justify-between items-center p-4 bg-gray-100 rounded-md"
-          >
-            <span
-              className={`${
-                transaction.amount > 0 ? "text-green-500" : "text-red-500"
-              } font-bold`}
+          // Extract only the date part (YYYY-MM-DD) from createdAt
+          const dateOnly = transaction.createdAt.split("T")[0];
+
+          return (
+            <div
+              key={transaction._id + idx}
+              className="grid grid-cols-3 gap-4 items-center p-4 bg-gray-100 rounded-md text-center"
             >
-              {transaction.amount > 0
-                ? `+${transaction.amount}`
-                : transaction.amount}
-            </span>
-            <span className="text-black">{dateOnly}</span>
-            <span className="text-black-500 capitalize">
-              {transaction.type}
-            </span>
-          </div>
-        );
-      })}
+              <span
+                className={`${
+                  selfTransfer
+                    ? "text-gray-500" // Neutral color for self-transfer
+                    : transaction.type === "deposit" ||
+                      (transaction.type === "transfer" &&
+                        transaction.to === user._id)
+                    ? "text-green-500"
+                    : "text-red-500"
+                } font-bold`}
+              >
+                {selfTransfer
+                  ? `${transaction.amount}`
+                  : transaction.type === "deposit" ||
+                    (transaction.type === "transfer" &&
+                      transaction.to === user._id)
+                  ? `+${transaction.amount}`
+                  : `-${transaction.amount}`}
+              </span>
+              <span className="text-black">{dateOnly}</span>
+              <span className="text-black-500 capitalize">
+                {selfTransfer ? "Self transfer" : transaction.type}
+              </span>
+            </div>
+          );
+        })
+        .reverse()}
     </div>
   );
 }
