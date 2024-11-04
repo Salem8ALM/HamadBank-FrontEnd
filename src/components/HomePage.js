@@ -19,7 +19,7 @@ function HomePage() {
               ))}
             </BasicSlider>
           </div>
-          <div className="grid bg-white sm:w-full md:w-[70rem] grid-cols-1 md:grid-cols-2 rounded-lg mx-auto mt-8 md:mt-16 overflow-hidden shadow-md">
+          <div className="grid bg-white sm:w-full md:w-[70rem] grid-cols-1 md:grid-cols-2 rounded-lg mx-auto mt-8 md:mt-16 overflow-hidden shadow-md border-[1px]">
             <Image
               width={500}
               height={300}
@@ -31,14 +31,14 @@ function HomePage() {
               className="w-full"
             />
             <div className="text-[#54585a] flex flex-col items-center justify-center text-left p-4 md:p-8">
-              <h1 className="m-5 text-2xl md:text-4xl font-bold text-center md:text-left">
+              <h1 className="m-0 text-2xl md:text-4xl font-bold text-center md:text-center">
                 Unique private banking experience
               </h1>
-              <p className="m-5 text-center md:text-left">
+              <p className="md:m-5 m-2 text-center md:text-left">
                 Private banking cards and benefits
               </p>
               <Link href="/login">
-                <button className="mx-5 md:mx-0 border-[#b39521] text-[#b39521] border-[1px] rounded-md p-3 md:p-6 py-2 hover:scale-105 hover:bg-[#b39521] hover:text-white hover:shadow-md duration-300">
+                <button className="mx-5 md:mx-0 border-[#b39521] text-[#b39521] border-[1px] rounded-md p-3 py-2 hover:scale-105 hover:bg-[#b39521] hover:text-white hover:shadow-md duration-300">
                   Bank with us today
                 </button>
               </Link>
@@ -46,7 +46,7 @@ function HomePage() {
           </div>
 
           <div className="flex flex-col md:flex-row justify-evenly mt-5">
-            <div className="flex flex-col bg-white rounded-lg shadow-lg overflow-hidden w-full md:w-[32rem] md:m-4">
+            <div className="flex flex-col bg-white rounded-lg shadow-lg border-[1px] overflow-hidden w-full md:w-[32rem] md:m-4 ">
               <Image
                 width={538}
                 height={456}
@@ -69,7 +69,7 @@ function HomePage() {
               </div>
             </div>
 
-            <div className="flex flex-col bg-white rounded-lg shadow-lg overflow-hidden w-full md:w-[32rem] md:m-4">
+            <div className="flex flex-col bg-white rounded-lg shadow-lg border-[1px] overflow-hidden w-full md:w-[32rem] md:m-4">
               <Image
                 width={538}
                 height={456}
@@ -94,7 +94,7 @@ function HomePage() {
             </div>
           </div>
 
-          <div className="flex flex-col md:flex-row bg-white rounded-lg shadow-lg overflow-hidden mx-4 mt-5 md:my-8 mb-4">
+          <div className="flex flex-col md:flex-row bg-white rounded-lg shadow-lg border-[1px] overflow-hidden mx-4 mt-5 md:my-8 mb-4">
             <Image
               width={570}
               height={300}
