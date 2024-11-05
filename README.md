@@ -16,7 +16,9 @@ Welcome to the frontend repository for **Bank of Failaka**, a modern and secure 
 - [License](#license)
 - [Authors](#authors)
 
----
+
+![HomePageImg1](https://github.com/user-attachments/assets/aed46375-2ff1-46ee-95ee-d74a2cd24682)
+
 
 ## About the Project
 
